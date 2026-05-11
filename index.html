@@ -2,175 +2,278 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
 <meta name="apple-mobile-web-app-title" content="JARVIS"/>
+<meta name="theme-color" content="#0a0a0a"/>
 <title>JARVIS</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/>
+
+<!-- PWA Icon as inline SVG converted to data URI -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230a0a0a'/%3E%3Ccircle cx='256' cy='256' r='220' fill='none' stroke='%23c0392b' stroke-width='12'/%3E%3Ccircle cx='256' cy='256' r='180' fill='none' stroke='%23e74c3c' stroke-width='4'/%3E%3Cellipse cx='256' cy='256' rx='120' ry='140' fill='%23c0392b' opacity='0.15'/%3E%3Cpolygon points='256,100 310,200 410,210 335,285 355,385 256,330 157,385 177,285 102,210 202,200' fill='none' stroke='%23e74c3c' stroke-width='6' opacity='0.6'/%3E%3Ccircle cx='256' cy='256' r='55' fill='%23c0392b' opacity='0.9'/%3E%3Ccircle cx='256' cy='256' r='35' fill='%23ff6b6b' opacity='0.8'/%3E%3Ccircle cx='256' cy='256' r='18' fill='%23fff' opacity='0.95'/%3E%3Ctext x='256' y='460' text-anchor='middle' font-family='monospace' font-size='52' font-weight='bold' fill='%23e74c3c' letter-spacing='8'%3EJARVIS%3C/text%3E%3C/svg%3E"/>
+
+<!-- Apple touch icon -->
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%230a0a0a'/%3E%3Ccircle cx='256' cy='220' r='160' fill='none' stroke='%23c0392b' stroke-width='10'/%3E%3Ccircle cx='256' cy='220' r='100' fill='%23c0392b' opacity='0.2'/%3E%3Ccircle cx='256' cy='220' r='50' fill='%23c0392b' opacity='0.8'/%3E%3Ccircle cx='256' cy='220' r='25' fill='%23ff6b6b'/%3E%3Ccircle cx='256' cy='220' r='12' fill='%23fff'/%3E%3Cline x1='256' y1='60' x2='256' y2='100' stroke='%23e74c3c' stroke-width='6'/%3E%3Cline x1='256' y1='340' x2='256' y2='380' stroke='%23e74c3c' stroke-width='6'/%3E%3Cline x1='96' y1='220' x2='136' y2='220' stroke='%23e74c3c' stroke-width='6'/%3E%3Cline x1='376' y1='220' x2='416' y2='220' stroke='%23e74c3c' stroke-width='6'/%3E%3Ctext x='256' y='430' text-anchor='middle' font-family='monospace' font-size='48' font-weight='bold' fill='%23e74c3c' letter-spacing='6'%3EJARVIS%3C/text%3E%3C/svg%3E"/>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  :root {
-    --cyan: #00d4ff; --cyan-dim: rgba(0,212,255,0.12);
-    --cyan-border: rgba(0,212,255,0.22); --bg: #060d10;
-    --text: #d8eaed; --text-dim: #7aa8b0; --green: #00ff88;
-  }
-  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; overflow: hidden; }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --red:#e74c3c;--red-dark:#c0392b;--red-glow:rgba(231,76,60,0.3);
+  --gold:#f39c12;--gold-dim:rgba(243,156,18,0.3);
+  --cyan:#00d4ff;--cyan-dim:rgba(0,212,255,0.15);
+  --bg:#060608;--bg2:#0d0d12;
+  --text:#e8ddd0;--text-dim:#8a7a70;
+  --border:rgba(231,76,60,0.25);
+}
+html,body{height:100%;background:var(--bg);color:var(--text);font-family:'Rajdhani',sans-serif;overflow:hidden;font-size:15px;}
 
-  /* SETUP SCREEN */
-  #keyScreen { position: fixed; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; background: var(--bg); padding: 28px 22px; z-index: 100; overflow-y: auto; }
-  #keyScreen.hidden { display: none; }
-  .logo { font-family: 'Orbitron', monospace; font-size: 32px; color: var(--cyan); letter-spacing: 6px; margin-bottom: 4px; text-shadow: 0 0 30px rgba(0,212,255,0.5); }
-  .logo-sub { font-size: 11px; color: rgba(0,212,255,0.4); letter-spacing: 2px; font-family: monospace; margin-bottom: 30px; }
-  .setup-box { width: 100%; max-width: 360px; }
-  .step { background: rgba(0,212,255,0.04); border: 1px solid var(--cyan-border); border-radius: 12px; padding: 16px; margin-bottom: 10px; }
-  .step-num { font-size: 10px; color: var(--cyan); font-family: monospace; letter-spacing: 1px; margin-bottom: 6px; }
-  .step-text { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
-  .step-text a { color: var(--cyan); }
-  .step-text strong { color: var(--text); }
-  .free-badge { display: inline-block; background: rgba(0,255,136,0.1); border: 1px solid rgba(0,255,136,0.3); color: var(--green); font-size: 10px; padding: 2px 8px; border-radius: 10px; margin-left: 6px; font-family: monospace; }
-  .name-input, .key-input { width: 100%; background: rgba(0,212,255,0.05); border: 1px solid var(--cyan-border); border-radius: 10px; padding: 13px 15px; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; outline: none; caret-color: var(--cyan); margin-top: 8px; }
-  .key-input { font-family: monospace; font-size: 13px; }
-  .name-input:focus, .key-input:focus { border-color: rgba(0,212,255,0.5); }
-  .key-btn { width: 100%; padding: 14px; margin-top: 10px; background: rgba(0,212,255,0.15); border: 1px solid rgba(0,212,255,0.4); border-radius: 10px; color: var(--cyan); font-family: 'Orbitron', monospace; font-size: 12px; letter-spacing: 2px; cursor: pointer; transition: all 0.2s; }
-  .key-btn:hover { background: rgba(0,212,255,0.25); }
+/* ANIMATIONS */
+@keyframes gp{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes fu{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bl{0%,100%{opacity:.2;transform:scale(.75)}50%{opacity:1;transform:scale(1)}}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spin-rev{to{transform:rotate(-360deg)}}
+@keyframes wave{0%,100%{height:4px}50%{height:22px}}
+@keyframes scan{0%{top:-10%}100%{top:110%}}
+@keylink pulse-red{0%{box-shadow:0 0 0 0 var(--red-glow)}100%{box-shadow:0 0 0 20px transparent}}
+@keyframes hud-in{from{opacity:0;transform:scale(0.95)}to{opacity:1;transform:scale(1)}}
+@keyframes flicker{0%,100%{opacity:1}92%{opacity:1}93%{opacity:.8}94%{opacity:1}97%{opacity:.9}98%{opacity:1}}
+@keyframes ring-pulse{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.6);opacity:0}}
 
-  /* APP */
-  #app { display: flex; flex-direction: column; height: 100vh; height: 100dvh; }
-  #app.hidden { display: none; }
+/* SETUP SCREEN */
+#keyScreen{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;background:var(--bg);padding:28px 20px;z-index:100;overflow-y:auto;}
+#keyScreen.hidden{display:none;}
 
-  /* Animated background */
-  .bg-glow { position: fixed; top: -15%; left: 50%; transform: translateX(-50%); width: 80vw; height: 40vh; background: radial-gradient(ellipse, rgba(0,212,255,0.08) 0%, transparent 70%); pointer-events: none; animation: gp 4s ease-in-out infinite; }
-  .bg-grid { position: fixed; inset: 0; background-image: linear-gradient(rgba(0,212,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,255,0.03) 1px, transparent 1px); background-size: 40px 40px; pointer-events: none; }
+.setup-logo{position:relative;margin-bottom:24px;display:flex;flex-direction:column;align-items:center;}
+.arc-reactor{width:80px;height:80px;position:relative;margin-bottom:12px;}
+.arc-ring{position:absolute;border-radius:50%;border:2px solid var(--red);animation:spin 4s linear infinite;}
+.arc-ring-1{inset:0;border-color:var(--red);opacity:.8;}
+.arc-ring-2{inset:8px;border-color:var(--gold);border-style:dashed;animation-direction:reverse;animation-duration:3s;opacity:.6;}
+.arc-ring-3{inset:16px;border-color:var(--red);opacity:.4;}
+.arc-core{position:absolute;inset:24px;background:radial-gradient(circle,#fff 0%,var(--red) 40%,var(--red-dark) 100%);border-radius:50%;box-shadow:0 0 20px var(--red),0 0 40px var(--red-glow);}
+.setup-title{font-family:'Orbitron',monospace;font-size:26px;color:var(--red);letter-spacing:6px;font-weight:900;text-shadow:0 0 20px var(--red-glow);}
+.setup-sub{font-size:11px;color:rgba(231,76,60,0.5);letter-spacing:3px;font-family:'Orbitron',monospace;margin-top:3px;}
 
-  @keyframes gp { 0%,100%{opacity:0.4} 50%{opacity:1} }
-  @keyframes fu { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-  @keyframes bl { 0%,100%{opacity:0.2;transform:scale(0.75)} 50%{opacity:1;transform:scale(1)} }
-  @keyframes spin { to{transform:rotate(360deg)} }
-  @keyframes wave { 0%,100%{height:4px} 50%{height:20px} }
-  @keyframes pulse-ring { 0%{transform:scale(0.9);opacity:1} 100%{transform:scale(1.8);opacity:0} }
+.setup-box{width:100%;max-width:360px;}
+.step{background:rgba(231,76,60,0.04);border:1px solid var(--border);border-radius:10px;padding:14px;margin-bottom:10px;}
+.step-num{font-size:10px;color:var(--red);font-family:'Orbitron',monospace;letter-spacing:1px;margin-bottom:6px;}
+.step-text{font-size:13px;color:var(--text-dim);line-height:1.5;}
+.step-text a{color:var(--red);}
+.step-text strong{color:var(--text);}
+.free-badge{display:inline-block;background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;font-size:9px;padding:2px 7px;border-radius:8px;margin-left:6px;font-family:monospace;}
+.name-input,.key-input{width:100%;background:rgba(231,76,60,0.05);border:1px solid var(--border);border-radius:8px;padding:12px 14px;color:var(--text);font-size:14px;font-family:'Rajdhani',sans-serif;outline:none;caret-color:var(--red);margin-top:8px;}
+.key-input{font-family:monospace;font-size:12px;}
+.name-input:focus,.key-input:focus{border-color:rgba(231,76,60,.6);box-shadow:0 0 10px rgba(231,76,60,.1);}
+.key-btn{width:100%;padding:14px;margin-top:10px;background:rgba(231,76,60,0.15);border:1px solid rgba(231,76,60,.5);border-radius:10px;color:var(--red);font-family:'Orbitron',monospace;font-size:12px;letter-spacing:2px;cursor:pointer;transition:all .2s;}
+.key-btn:active{background:rgba(231,76,60,0.3);}
 
-  /* Header */
-  header { display: flex; align-items: center; gap: 12px; padding: 14px 16px; border-bottom: 1px solid var(--cyan-border); background: rgba(6,13,16,0.92); backdrop-filter: blur(20px); flex-shrink: 0; position: relative; z-index: 2; }
-  .av { width: 40px; height: 40px; border-radius: 50%; border: 1.5px solid rgba(0,212,255,0.5); background: rgba(0,212,255,0.08); display: flex; align-items: center; justify-content: center; font-size: 17px; color: var(--cyan); position: relative; flex-shrink: 0; }
-  .av-dot { position: absolute; bottom: 1px; right: 1px; width: 9px; height: 9px; border-radius: 50%; background: var(--cyan); box-shadow: 0 0 8px var(--cyan); animation: gp 2s ease-in-out infinite; }
-  .av-ring { position: absolute; inset: -4px; border-radius: 50%; border: 1px solid rgba(0,212,255,0.3); animation: pulse-ring 2s ease-out infinite; }
-  .ht { flex: 1; }
-  .ht h1 { font-family: 'Orbitron', monospace; font-size: 15px; letter-spacing: 3px; color: var(--cyan); font-weight: 700; text-shadow: 0 0 20px rgba(0,212,255,0.4); }
-  .ht p { font-size: 10px; color: rgba(0,212,255,0.45); letter-spacing: 1px; font-family: monospace; }
+/* APP */
+#app{display:flex;flex-direction:column;height:100vh;height:100dvh;position:relative;animation:hud-in .5s ease;}
+#app.hidden{display:none;}
 
-  /* Time display */
-  #clockDisplay { font-family: 'Orbitron', monospace; font-size: 11px; color: rgba(0,212,255,0.6); letter-spacing: 1px; text-align: right; }
-  #dateDisplay { font-size: 9px; color: rgba(0,212,255,0.35); letter-spacing: 1px; font-family: monospace; text-align: right; }
+/* HUD Background */
+.hud-bg{position:fixed;inset:0;pointer-events:none;overflow:hidden;}
+.hud-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(231,76,60,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(231,76,60,0.04) 1px,transparent 1px);background-size:50px 50px;}
+.hud-glow-top{position:absolute;top:-20%;left:50%;transform:translateX(-50%);width:80vw;height:50vh;background:radial-gradient(ellipse,rgba(231,76,60,0.08) 0%,transparent 70%);animation:gp 5s ease-in-out infinite;}
+.hud-glow-bot{position:absolute;bottom:-10%;left:50%;transform:translateX(-50%);width:60vw;height:30vh;background:radial-gradient(ellipse,rgba(243,156,18,0.05) 0%,transparent 70%);}
+.hud-scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(231,76,60,0.3),transparent);animation:scan 8s linear infinite;top:0;}
+.hud-corner{position:absolute;width:20px;height:20px;border-color:var(--red);border-style:solid;opacity:.4;}
+.hud-corner.tl{top:8px;left:8px;border-width:2px 0 0 2px;}
+.hud-corner.tr{top:8px;right:8px;border-width:2px 2px 0 0;}
+.hud-corner.bl{bottom:8px;left:8px;border-width:0 0 2px 2px;}
+.hud-corner.br{bottom:8px;right:8px;border-width:0 2px 2px 0;}
 
-  /* Messages */
-  #messages { flex: 1; overflow-y: auto; padding: 16px 14px; display: flex; flex-direction: column; scroll-behavior: smooth; position: relative; z-index: 1; }
-  #messages::-webkit-scrollbar { width: 3px; }
-  #messages::-webkit-scrollbar-thumb { background: rgba(0,212,255,0.15); border-radius: 2px; }
+/* HEADER */
+header{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--border);background:rgba(6,6,8,0.95);backdrop-filter:blur(20px);flex-shrink:0;position:relative;z-index:2;}
+.header-reactor{position:relative;width:36px;height:36px;flex-shrink:0;}
+.hr-ring{position:absolute;border-radius:50%;border:1.5px solid var(--red);}
+.hr-ring-1{inset:0;animation:spin 3s linear infinite;opacity:.7;}
+.hr-ring-2{inset:6px;border-color:var(--gold);animation:spin-rev 2s linear infinite;opacity:.5;}
+.hr-core{position:absolute;inset:12px;background:radial-gradient(circle,#fff,var(--red));border-radius:50%;box-shadow:0 0 8px var(--red);}
+.hr-pulse{position:absolute;inset:-4px;border-radius:50%;border:1px solid var(--red);animation:ring-pulse 2s ease-out infinite;opacity:0;}
+.ht{flex:1;}
+.ht h1{font-family:'Orbitron',monospace;font-size:15px;letter-spacing:3px;color:var(--red);font-weight:900;text-shadow:0 0 15px var(--red-glow);animation:flicker 8s infinite;}
+.ht p{font-size:9px;color:rgba(231,76,60,.45);letter-spacing:1px;font-family:'Orbitron',monospace;}
+#clockDisplay{font-family:'Orbitron',monospace;font-size:12px;color:var(--gold);letter-spacing:1px;}
+#dateDisplay{font-size:9px;color:rgba(243,156,18,.4);letter-spacing:1px;font-family:monospace;text-align:right;}
+.chg{font-size:10px;color:rgba(231,76,60,.4);cursor:pointer;padding:4px 8px;border:1px solid rgba(231,76,60,.2);border-radius:6px;font-family:'Orbitron',monospace;background:none;margin-left:4px;}
 
-  .msg { display: flex; gap: 10px; margin-bottom: 16px; animation: fu 0.3s ease; }
-  .msg.user { flex-direction: row-reverse; }
-  .ma { width: 30px; height: 30px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 12px; border: 1px solid var(--cyan-border); }
-  .msg.user .ma { background: rgba(255,255,255,0.05); border-color: rgba(255,255,255,0.1); color: rgba(255,255,255,0.5); }
-  .msg.assistant .ma { background: rgba(0,212,255,0.08); color: var(--cyan); }
-  .mb { max-width: 83%; display: flex; flex-direction: column; gap: 8px; }
-  .bubble { padding: 11px 14px; font-size: 14px; line-height: 1.65; border-radius: 14px; }
-  .msg.user .bubble { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px 4px 14px 14px; color: #e0eaec; }
-  .msg.assistant .bubble { background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.12); border-radius: 4px 14px 14px 14px; color: #b8d4d8; }
-  .bubble strong { color: #e0eaec; }
-  .bubble code { background: rgba(0,212,255,0.1); padding: 2px 5px; border-radius: 4px; font-family: monospace; font-size: 0.88em; }
-  .bubble h2,.bubble h3,.bubble h4 { color: var(--cyan); margin: 10px 0 4px; }
-  .li { display: flex; gap: 6px; margin: 3px 0; }
-  .li .ar { color: var(--cyan); flex-shrink: 0; }
+/* STATUS BAR */
+#statusBar{display:flex;align-items:center;justify-content:space-between;padding:6px 14px;background:rgba(231,76,60,0.04);border-bottom:1px solid rgba(231,76,60,.1);font-family:'Orbitron',monospace;font-size:9px;color:rgba(231,76,60,.5);letter-spacing:1px;flex-shrink:0;}
+.status-dot{width:6px;height:6px;border-radius:50%;background:var(--red);display:inline-block;margin-right:5px;box-shadow:0 0 5px var(--red);animation:gp 1.5s ease-in-out infinite;}
 
-  /* Weather card */
-  .weather-card { background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.2); border-radius: 12px; padding: 14px 16px; display: flex; align-items: center; gap: 14px; }
-  .weather-icon { font-size: 36px; }
-  .weather-info { flex: 1; }
-  .weather-temp { font-family: 'Orbitron', monospace; font-size: 24px; color: var(--cyan); }
-  .weather-desc { font-size: 12px; color: var(--text-dim); margin-top: 2px; }
-  .weather-location { font-size: 11px; color: rgba(0,212,255,0.4); font-family: monospace; margin-top: 4px; }
-  .weather-details { display: flex; gap: 12px; margin-top: 8px; }
-  .weather-detail { font-size: 11px; color: var(--text-dim); }
-  .weather-detail span { color: var(--cyan); }
+/* BRIEFING CARD */
+.briefing-card{margin:10px 14px;background:rgba(231,76,60,0.04);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+.briefing-title{font-family:'Orbitron',monospace;font-size:9px;color:var(--red);letter-spacing:2px;margin-bottom:8px;}
+.briefing-row{display:flex;gap:12px;flex-wrap:wrap;}
+.briefing-item{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--text-dim);}
+.briefing-item .bi-icon{font-size:16px;}
+.briefing-item .bi-val{color:var(--text);font-weight:600;}
 
-  /* Map card */
-  .map-card { border: 1px solid rgba(0,212,255,0.2); border-radius: 12px; overflow: hidden; background: rgba(0,212,255,0.03); }
-  .map-title { padding: 8px 12px; font-size: 11px; color: var(--cyan); font-family: monospace; letter-spacing: 1px; border-bottom: 1px solid rgba(0,212,255,0.1); display: flex; justify-content: space-between; align-items: center; }
-  .map-card iframe { display: block; width: 100%; border: none; height: 240px; }
-  .map-open-btn { font-size: 10px; background: rgba(0,212,255,0.1); border: 1px solid rgba(0,212,255,0.3); color: var(--cyan); padding: 3px 8px; border-radius: 6px; cursor: pointer; text-decoration: none; font-family: monospace; }
-  .map-pins { padding: 8px 12px; }
-  .map-pin { font-size: 12px; color: var(--text-dim); margin-bottom: 3px; }
-  .map-pin span { color: var(--cyan); margin-right: 4px; }
+/* MESSAGES */
+#messages{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;scroll-behavior:smooth;position:relative;z-index:1;}
+#messages::-webkit-scrollbar{width:3px;}
+#messages::-webkit-scrollbar-thumb{background:rgba(231,76,60,.2);border-radius:2px;}
 
-  /* Typing */
-  .typing { display: flex; gap: 5px; align-items: center; padding: 12px 14px; }
-  .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--cyan); opacity: 0.4; animation: bl 1.2s ease-in-out infinite; }
-  .dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+.msg{display:flex;gap:10px;margin-bottom:14px;animation:fu .3s ease;}
+.msg.user{flex-direction:row-reverse;}
+.ma{width:28px;height:28px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:11px;border:1px solid var(--border);}
+.msg.user .ma{background:rgba(255,255,255,.04);border-color:rgba(255,255,255,.1);color:rgba(255,255,255,.4);}
+.msg.assistant .ma{background:rgba(231,76,60,.1);color:var(--red);box-shadow:0 0 8px rgba(231,76,60,.2);}
+.mb{max-width:84%;display:flex;flex-direction:column;gap:7px;}
+.bubble{padding:10px 13px;font-size:14px;line-height:1.6;border-radius:12px;font-family:'Rajdhani',sans-serif;}
+.msg.user .bubble{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px 3px 12px 12px;color:#e8ddd0;}
+.msg.assistant .bubble{background:rgba(231,76,60,.04);border:1px solid rgba(231,76,60,.12);border-radius:3px 12px 12px 12px;color:#c8b8b0;}
+.bubble strong{color:#e8ddd0;}
+.bubble code{background:rgba(231,76,60,.1);padding:2px 5px;border-radius:4px;font-family:monospace;font-size:.88em;color:var(--red);}
+.bubble h2,.bubble h3,.bubble h4{color:var(--red);margin:8px 0 3px;font-family:'Orbitron',monospace;font-size:.85em;letter-spacing:1px;}
+.li{display:flex;gap:6px;margin:2px 0;}
+.li .ar{color:var(--red);flex-shrink:0;}
 
-  /* Waveform */
-  #waveform { display: none; align-items: center; justify-content: center; gap: 3px; padding: 8px 16px; height: 40px; }
-  #waveform.active { display: flex; }
-  .wave-bar { width: 4px; background: var(--cyan); border-radius: 2px; animation: wave 0.8s ease-in-out infinite; opacity: 0.8; }
-  .wave-bar:nth-child(1){animation-delay:0s;height:8px}
-  .wave-bar:nth-child(2){animation-delay:0.1s;height:14px}
-  .wave-bar:nth-child(3){animation-delay:0.2s;height:20px}
-  .wave-bar:nth-child(4){animation-delay:0.3s;height:14px}
-  .wave-bar:nth-child(5){animation-delay:0.4s;height:8px}
-  .wave-bar:nth-child(6){animation-delay:0.1s;height:16px}
-  .wave-bar:nth-child(7){animation-delay:0.2s;height:10px}
+/* WEATHER CARD */
+.weather-card{background:linear-gradient(135deg,rgba(231,76,60,0.06),rgba(243,156,18,0.04));border:1px solid var(--border);border-radius:10px;padding:14px;overflow:hidden;position:relative;}
+.weather-card::before{content:'ATMOSPHERIC DATA';position:absolute;top:8px;right:10px;font-family:'Orbitron',monospace;font-size:8px;color:rgba(231,76,60,.3);letter-spacing:1px;}
+.wc-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.wc-icon{font-size:38px;}
+.wc-temp{font-family:'Orbitron',monospace;font-size:28px;color:var(--gold);text-shadow:0 0 15px var(--gold-dim);}
+.wc-desc{font-size:13px;color:var(--text-dim);margin-top:2px;}
+.wc-loc{font-size:10px;color:rgba(231,76,60,.5);font-family:'Orbitron',monospace;letter-spacing:1px;margin-top:3px;}
+.wc-details{display:flex;gap:14px;padding-top:10px;border-top:1px solid rgba(231,76,60,.1);}
+.wc-d{font-size:11px;color:var(--text-dim);font-family:'Rajdhani',sans-serif;}
+.wc-d span{color:var(--gold);}
 
-  /* Suggestions */
-  #suggestions { display: flex; flex-wrap: wrap; gap: 7px; padding: 0 14px 10px 54px; position: relative; z-index: 1; }
-  .chip { background: rgba(0,212,255,0.04); border: 1px solid rgba(0,212,255,0.2); border-radius: 20px; padding: 6px 12px; font-size: 12px; color: rgba(0,212,255,0.65); cursor: pointer; transition: all 0.2s; white-space: nowrap; }
-  .chip:active { background: rgba(0,212,255,0.15); color: var(--cyan); }
+/* MAP CARD */
+.map-card{border:1px solid var(--border);border-radius:10px;overflow:hidden;background:rgba(231,76,60,.03);}
+.map-title{padding:8px 12px;font-size:9px;color:var(--red);font-family:'Orbitron',monospace;letter-spacing:1px;border-bottom:1px solid rgba(231,76,60,.1);display:flex;justify-content:space-between;align-items:center;}
+.map-card iframe{display:block;width:100%;border:none;height:230px;}
+.map-open{font-size:9px;background:rgba(231,76,60,.1);border:1px solid rgba(231,76,60,.3);color:var(--red);padding:3px 8px;border-radius:5px;cursor:pointer;text-decoration:none;font-family:'Orbitron',monospace;}
+.map-pins{padding:8px 12px;}
+.map-pin{font-size:12px;color:var(--text-dim);margin-bottom:3px;}
+.map-pin span{color:var(--red);margin-right:4px;}
 
-  /* Footer */
-  footer { padding: 10px 14px 14px; border-top: 1px solid var(--cyan-border); background: rgba(6,13,16,0.92); backdrop-filter: blur(20px); flex-shrink: 0; position: relative; z-index: 2; }
-  .irow { display: flex; gap: 8px; align-items: flex-end; background: rgba(0,212,255,0.04); border: 1px solid var(--cyan-border); border-radius: 14px; padding: 8px 10px; }
-  #ui { flex: 1; background: transparent; border: none; color: var(--text); font-size: 14px; font-family: 'DM Sans', sans-serif; resize: none; outline: none; caret-color: var(--cyan); max-height: 100px; line-height: 1.5; padding: 4px 2px; }
-  .icon-btn { width: 36px; height: 36px; border-radius: 10px; border: none; display: flex; align-items: center; justify-content: center; cursor: pointer; flex-shrink: 0; transition: all 0.2s; font-size: 16px; }
-  #micBtn { background: rgba(0,212,255,0.1); color: var(--cyan); border: 1px solid rgba(0,212,255,0.25); }
-  #micBtn.listening { background: rgba(255,60,60,0.2); color: #ff4444; border-color: rgba(255,60,60,0.4); animation: gp 0.8s ease-in-out infinite; }
-  #sb { background: rgba(0,212,255,0.15); color: var(--cyan); border: 1px solid rgba(0,212,255,0.3); }
-  #sb:disabled { opacity: 0.3; cursor: default; }
-  #sb:not(:disabled) { background: rgba(0,212,255,0.22); box-shadow: 0 0 12px rgba(0,212,255,0.2); }
-  .fhint { text-align: center; margin-top: 6px; font-size: 10px; color: rgba(0,212,255,0.2); font-family: monospace; letter-spacing: 1px; }
-  .chg { font-size: 10px; color: rgba(0,212,255,0.3); cursor: pointer; padding: 3px 7px; border: 1px solid rgba(0,212,255,0.15); border-radius: 6px; font-family: monospace; background: none; }
+/* NEWS CARD */
+.news-card{background:rgba(231,76,60,.03);border:1px solid var(--border);border-radius:10px;overflow:hidden;}
+.news-header{padding:8px 12px;font-family:'Orbitron',monospace;font-size:9px;color:var(--red);letter-spacing:1px;border-bottom:1px solid rgba(231,76,60,.1);}
+.news-item{padding:10px 12px;border-bottom:1px solid rgba(231,76,60,.05);}
+.news-item:last-child{border-bottom:none;}
+.news-item-title{font-size:13px;color:var(--text);font-weight:600;line-height:1.4;}
+.news-item-src{font-size:10px;color:rgba(231,76,60,.4);font-family:'Orbitron',monospace;margin-top:3px;}
+
+/* TYPING */
+.typing{display:flex;gap:5px;align-items:center;padding:10px 13px;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--red);opacity:.4;animation:bl 1.2s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+
+/* WAVEFORM */
+#waveform{display:none;align-items:center;justify-content:center;gap:3px;padding:6px 16px;height:36px;background:rgba(231,76,60,.05);border-bottom:1px solid rgba(231,76,60,.1);}
+#waveform.active{display:flex;}
+.wave-bar{width:4px;background:var(--red);border-radius:2px;animation:wave .7s ease-in-out infinite;box-shadow:0 0 4px var(--red);}
+.wave-bar:nth-child(1){animation-delay:0s}
+.wave-bar:nth-child(2){animation-delay:.1s}
+.wave-bar:nth-child(3){animation-delay:.15s}
+.wave-bar:nth-child(4){animation-delay:.2s}
+.wave-bar:nth-child(5){animation-delay:.15s}
+.wave-bar:nth-child(6){animation-delay:.1s}
+.wave-bar:nth-child(7){animation-delay:0s}
+#waveLabel{font-family:'Orbitron',monospace;font-size:9px;color:var(--red);letter-spacing:2px;margin-left:10px;animation:gp .8s ease-in-out infinite;}
+
+/* SUGGESTIONS */
+#suggestions{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:7px;padding:0 14px 8px;position:relative;z-index:1;scrollbar-width:none;}
+#suggestions::-webkit-scrollbar{display:none;}
+.chip{background:rgba(231,76,60,.05);border:1px solid rgba(231,76,60,.2);border-radius:20px;padding:5px 12px;font-size:12px;color:rgba(231,76,60,.7);cursor:pointer;white-space:nowrap;font-family:'Rajdhani',sans-serif;transition:all .2s;}
+.chip:active{background:rgba(231,76,60,.15);color:var(--red);}
+
+/* FOOTER */
+footer{padding:10px 14px 12px;border-top:1px solid var(--border);background:rgba(6,6,8,.95);backdrop-filter:blur(20px);flex-shrink:0;position:relative;z-index:2;}
+.irow{display:flex;gap:8px;align-items:flex-end;background:rgba(231,76,60,.04);border:1px solid var(--border);border-radius:12px;padding:8px 10px;}
+#ui{flex:1;background:transparent;border:none;color:var(--text);font-size:14px;font-family:'Rajdhani',sans-serif;resize:none;outline:none;caret-color:var(--red);max-height:100px;line-height:1.5;padding:3px 2px;}
+#ui::placeholder{color:rgba(139,113,100,.5);}
+.ibtn{width:36px;height:36px;border-radius:9px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .2s;font-size:15px;}
+#micBtn{background:rgba(231,76,60,.1);color:var(--red);border:1px solid rgba(231,76,60,.3);}
+#micBtn.listening{background:rgba(231,76,60,.25);border-color:var(--red);box-shadow:0 0 12px var(--red-glow);animation:gp .6s ease-in-out infinite;}
+#sb{background:rgba(231,76,60,.15);color:var(--red);border:1px solid rgba(231,76,60,.35);}
+#sb:disabled{opacity:.3;cursor:default;}
+#sb:not(:disabled){box-shadow:0 0 10px rgba(231,76,60,.2);}
+.fhint{text-align:center;margin-top:5px;font-size:9px;color:rgba(231,76,60,.2);font-family:'Orbitron',monospace;letter-spacing:1px;}
+
+/* WAKE WORD OVERLAY */
+#wakeOverlay{display:none;position:fixed;inset:0;background:rgba(6,6,8,.97);z-index:200;flex-direction:column;align-items:center;justify-content:center;}
+#wakeOverlay.active{display:flex;}
+.wake-reactor{position:relative;width:100px;height:100px;margin-bottom:20px;}
+.wake-ring{position:absolute;border-radius:50%;border:2px solid var(--red);}
+.wake-ring-1{inset:0;animation:spin 2s linear infinite;}
+.wake-ring-2{inset:12px;border-color:var(--gold);animation:spin-rev 1.5s linear infinite;}
+.wake-ring-3{inset:24px;animation:spin 3s linear infinite;opacity:.5;}
+.wake-core{position:absolute;inset:36px;background:radial-gradient(circle,#fff,var(--red));border-radius:50%;box-shadow:0 0 30px var(--red),0 0 60px var(--red-glow);}
+.wake-text{font-family:'Orbitron',monospace;font-size:13px;color:var(--red);letter-spacing:3px;animation:gp 1s ease-in-out infinite;}
+.wake-hint{font-size:11px;color:rgba(231,76,60,.4);font-family:'Orbitron',monospace;letter-spacing:2px;margin-top:8px;}
 </style>
 </head>
 <body>
 
 <!-- SETUP -->
 <div id="keyScreen">
-  <div class="logo">JARVIS</div>
-  <div class="logo-sub">MARK II · PERSONAL AI SYSTEM</div>
+  <div class="setup-logo">
+    <div class="arc-reactor">
+      <div class="arc-ring arc-ring-1"></div>
+      <div class="arc-ring arc-ring-2"></div>
+      <div class="arc-ring arc-ring-3"></div>
+      <div class="arc-core"></div>
+    </div>
+    <div class="setup-title">JARVIS</div>
+    <div class="setup-sub">MARK III · STARK INDUSTRIES</div>
+  </div>
   <div class="setup-box">
     <div class="step">
-      <div class="step-num">YOUR NAME</div>
-      <input class="name-input" id="nameInput" type="text" placeholder="e.g. Aitor" maxlength="20"/>
+      <div class="step-num">IDENTIFY YOURSELF</div>
+      <input class="name-input" id="nameInput" type="text" placeholder="Your name (e.g. Aitor)" maxlength="20"/>
     </div>
     <div class="step">
-      <div class="step-num">FREE GROQ API KEY <span class="free-badge">100% FREE</span></div>
-      <div class="step-text">
-        Go to <a href="https://console.groq.com" target="_blank"><strong>console.groq.com</strong></a> → sign up free → API Keys → create & copy.
-      </div>
+      <div class="step-num">GROQ API KEY <span class="free-badge">100% FREE</span></div>
+      <div class="step-text">Go to <a href="https://console.groq.com" target="_blank"><strong>console.groq.com</strong></a> → sign up free → API Keys → create & copy.</div>
       <input class="key-input" id="apiKeyInput" type="password" placeholder="gsk_..." autocomplete="off" spellcheck="false"/>
     </div>
-    <button class="key-btn" onclick="saveKey()">▶ INITIALIZE JARVIS</button>
+    <button class="key-btn" onclick="saveKey()">▶ INITIALIZE MARK III</button>
   </div>
+</div>
+
+<!-- WAKE WORD OVERLAY -->
+<div id="wakeOverlay">
+  <div class="wake-reactor">
+    <div class="wake-ring wake-ring-1"></div>
+    <div class="wake-ring wake-ring-2"></div>
+    <div class="wake-ring wake-ring-3"></div>
+    <div class="wake-core"></div>
+  </div>
+  <div class="wake-text">LISTENING…</div>
+  <div class="wake-hint">SAY "HEY JARVIS" TO ACTIVATE</div>
 </div>
 
 <!-- APP -->
 <div id="app" class="hidden">
-  <div class="bg-glow"></div>
-  <div class="bg-grid"></div>
+  <div class="hud-bg">
+    <div class="hud-grid"></div>
+    <div class="hud-glow-top"></div>
+    <div class="hud-glow-bot"></div>
+    <div class="hud-scan"></div>
+    <div class="hud-corner tl"></div>
+    <div class="hud-corner tr"></div>
+    <div class="hud-corner bl"></div>
+    <div class="hud-corner br"></div>
+  </div>
 
   <header>
-    <div class="av">◈<div class="av-dot"></div><div class="av-ring"></div></div>
+    <div class="header-reactor">
+      <div class="hr-ring hr-ring-1"></div>
+      <div class="hr-ring hr-ring-2"></div>
+      <div class="hr-core"></div>
+      <div class="hr-pulse"></div>
+    </div>
     <div class="ht">
-      <h1>JARVIS</h1>
-      <p id="st">SYSTEMS ONLINE · READY</p>
+      <h1>J.A.R.V.I.S</h1>
+      <p id="st">MARK III · ALL SYSTEMS NOMINAL</p>
     </div>
     <div style="text-align:right">
       <div id="clockDisplay">--:--</div>
@@ -179,267 +282,324 @@
     <button class="chg" onclick="showKey()">⚙</button>
   </header>
 
+  <div id="statusBar">
+    <div><span class="status-dot"></span><span id="statusText">ONLINE</span></div>
+    <div id="wakeStatus">WAKE WORD: OFF</div>
+    <div>STARK INDUSTRIES</div>
+  </div>
+
   <div id="messages"></div>
   <div id="waveform">
     <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
     <div class="wave-bar"></div><div class="wave-bar"></div><div class="wave-bar"></div>
     <div class="wave-bar"></div>
+    <span id="waveLabel">PROCESSING AUDIO</span>
   </div>
   <div id="suggestions"></div>
 
   <footer>
     <div class="irow">
-      <button class="icon-btn" id="micBtn" onclick="toggleMic()" title="Voice input">🎤</button>
-      <textarea id="ui" rows="1" placeholder="Ask JARVIS anything…"></textarea>
-      <button class="icon-btn" id="sb" onclick="send()" disabled>▶</button>
+      <button class="ibtn" id="micBtn" onclick="toggleMic()" title="Voice input">🎤</button>
+      <textarea id="ui" rows="1" placeholder="Speak or type your command…"></textarea>
+      <button class="ibtn" id="sb" onclick="send()" disabled>▶</button>
     </div>
-    <div class="fhint">TAP 🎤 TO SPEAK · ENTER TO SEND</div>
+    <div class="fhint">🎤 TAP MIC TO SPEAK · HOLD FOR WAKE WORD MODE</div>
   </footer>
 </div>
 
 <script>
-const SYSTEM = (name) => `You are JARVIS, a sophisticated AI assistant serving ${name||'sir'}. You are helpful, precise, slightly formal but warm — like Tony Stark's JARVIS.
+const SYSTEM = (name) => `You are J.A.R.V.I.S (Just A Rather Very Intelligent System), the AI assistant of ${name}. You are sophisticated, precise, slightly formal but warm — exactly like from Iron Man.
 
-Address the user as "${name||'sir'}" occasionally.
+Address the user as "${name}" occasionally, sometimes as "sir" for fun.
 
-When asked for a map or geographic info, respond with:
+When asked for a map or location, respond with a JSON block:
 \`\`\`map
-{"title":"Title","locations":[{"name":"Place","lat":36.12,"lng":-5.45,"note":"optional"}]}
+{"title":"Title","locations":[{"name":"Place","lat":36.12,"lng":-5.45,"note":"optional note"}]}
 \`\`\`
 
-When asked about weather, respond with:
+When asked about weather, respond conversationally AND include:
 \`\`\`weather
 {"location":"City, Country","temp":"22°C","feels":"20°C","desc":"Partly cloudy","icon":"⛅","humidity":"65%","wind":"12 km/h"}
 \`\`\`
 
-For everything else use markdown. Start replies with "Right away, ${name||'sir'}." or "Of course." or "Certainly, ${name||'sir'}." occasionally.`;
+When asked for news or current events, respond conversationally with what you know, formatted nicely.
 
-let apiKey = '', userName = '', history = [], busy = false;
-let recognition = null, listening = false;
+For calculations, give exact answers clearly.
+For everything else use markdown with headers and bullet points.
+Always start with "Right away, ${name}." or "Of course, ${name}." or "Certainly." occasionally. Keep responses concise and powerful.`;
+
+let apiKey='', userName='', history=[], busy=false;
+let recognition=null, listening=false, wakeMode=false, wakeRecognition=null;
+let memory={};
 
 // Clock
-function updateClock() {
-  const now = new Date();
-  document.getElementById('clockDisplay').textContent = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
-  const days = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
-  const months = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-  document.getElementById('dateDisplay').textContent = `${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+function updateClock(){
+  const now=new Date();
+  document.getElementById('clockDisplay').textContent=now.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const days=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const months=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  document.getElementById('dateDisplay').textContent=`${days[now.getDay()]} ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
 }
-setInterval(updateClock, 1000);
-updateClock();
+setInterval(updateClock,1000); updateClock();
 
-// Input auto-resize
-const inp = document.getElementById('ui');
-inp.addEventListener('input', () => {
-  inp.style.height = 'auto';
-  inp.style.height = Math.min(inp.scrollHeight, 100) + 'px';
-  document.getElementById('sb').disabled = !inp.value.trim();
+const inp=document.getElementById('ui');
+inp.addEventListener('input',()=>{
+  inp.style.height='auto';
+  inp.style.height=Math.min(inp.scrollHeight,100)+'px';
+  document.getElementById('sb').disabled=!inp.value.trim();
 });
-inp.addEventListener('keydown', e => { if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();} });
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();send();}});
 
-function saveKey() {
-  const k = document.getElementById('apiKeyInput').value.trim();
-  const n = document.getElementById('nameInput').value.trim();
-  if (!k) { alert('Please paste your Groq API key.'); return; }
-  apiKey = k; userName = n || 'sir';
-  localStorage.setItem('j_key', k);
-  localStorage.setItem('j_name', userName);
+// Long press mic for wake word mode
+let micPressTimer=null;
+document.getElementById('micBtn').addEventListener('mousedown',()=>{ micPressTimer=setTimeout(()=>toggleWakeMode(),700); });
+document.getElementById('micBtn').addEventListener('touchstart',()=>{ micPressTimer=setTimeout(()=>toggleWakeMode(),700); },{passive:true});
+document.getElementById('micBtn').addEventListener('mouseup',()=>clearTimeout(micPressTimer));
+document.getElementById('micBtn').addEventListener('touchend',()=>clearTimeout(micPressTimer));
+
+function saveKey(){
+  const k=document.getElementById('apiKeyInput').value.trim();
+  const n=document.getElementById('nameInput').value.trim();
+  if(!k){alert('Please paste your Groq API key.');return;}
+  apiKey=k; userName=n||'sir';
+  localStorage.setItem('jv3_key',k);
+  localStorage.setItem('jv3_name',userName);
+  memory=JSON.parse(localStorage.getItem('jv3_memory')||'{}');
   showApp();
 }
-function showKey() {
+function showKey(){
   document.getElementById('keyScreen').classList.remove('hidden');
   document.getElementById('app').classList.add('hidden');
+  stopWakeMode();
 }
-function showApp() {
+function showApp(){
   document.getElementById('keyScreen').classList.add('hidden');
   document.getElementById('app').classList.remove('hidden');
-  if (history.length === 0) welcome();
+  if(history.length===0) welcome();
   inp.focus();
 }
 
-function welcome() {
-  const hour = new Date().getHours();
-  const greet = hour < 12 ? 'Good morning' : hour < 18 ? 'Good afternoon' : 'Good evening';
-  addMsg('assistant', `${greet}, ${userName}. All systems are online and ready. I can answer questions, show maps, check weather, help with calculations, writing, and much more. What can I do for you?`);
-  const chips = ['🗺️ Map of Algeciras', '🌤️ Weather in Algeciras', '🧮 What is 15% of 340?', '✍️ Write a poem about the sea'];
-  const sg = document.getElementById('suggestions');
-  sg.innerHTML = '';
-  chips.forEach(c => {
-    const el = document.createElement('div');
-    el.className = 'chip'; el.textContent = c;
-    el.onclick = () => { inp.value = c; inp.dispatchEvent(new Event('input')); send(); };
+function welcome(){
+  const hour=new Date().getHours();
+  const greet=hour<12?'Good morning':hour<18?'Good afternoon':'Good evening';
+  const memNote=memory.lastVisit?` Last session: ${memory.lastVisit}.`:'';
+  addMsg('assistant',`${greet}, ${userName}. All systems are online and fully operational.${memNote} I'm ready to assist. You can speak to me by tapping the microphone, or hold it for hands-free wake word mode. What can I do for you today?`);
+  memory.lastVisit=new Date().toLocaleDateString();
+  localStorage.setItem('jv3_memory',JSON.stringify(memory));
+
+  const chips=['🗺️ Map of Algeciras','🌤️ Weather today','📰 Latest news','🧮 15% of 340','✍️ Write a poem'];
+  const sg=document.getElementById('suggestions');
+  sg.innerHTML='';
+  chips.forEach(c=>{
+    const el=document.createElement('div');
+    el.className='chip'; el.textContent=c;
+    el.onclick=()=>{inp.value=c;inp.dispatchEvent(new Event('input'));send();};
     sg.appendChild(el);
   });
+
+  speak(`${greet}, ${userName}. All systems online. How can I assist you?`);
 }
 
-// Voice input
-function toggleMic() {
-  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
-    alert('Voice input not supported in this browser. Try Chrome.'); return;
+// VOICE INPUT
+function toggleMic(){
+  if(wakeMode){toggleWakeMode();return;}
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){
+    alert('Voice input requires Chrome browser.');return;
   }
-  if (listening) {
-    recognition.stop(); return;
-  }
-  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  recognition = new SR();
-  recognition.lang = 'en-US';
-  recognition.continuous = false;
-  recognition.interimResults = false;
-  recognition.onstart = () => {
-    listening = true;
+  if(listening){recognition.stop();return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recognition=new SR();
+  recognition.lang='en-US';
+  recognition.continuous=false;
+  recognition.interimResults=false;
+  recognition.onstart=()=>{
+    listening=true;
     document.getElementById('micBtn').classList.add('listening');
-    document.getElementById('micBtn').textContent = '⏹';
+    document.getElementById('micBtn').textContent='⏹';
     document.getElementById('waveform').classList.add('active');
-    document.getElementById('st').textContent = 'LISTENING…';
+    document.getElementById('waveLabel').textContent='LISTENING…';
+    document.getElementById('st').textContent='AUDIO INPUT ACTIVE';
   };
-  recognition.onresult = (e) => {
-    const txt = e.results[0][0].transcript;
-    inp.value = txt;
-    inp.dispatchEvent(new Event('input'));
-    send();
+  recognition.onresult=(e)=>{
+    const txt=e.results[0][0].transcript;
+    inp.value=txt; inp.dispatchEvent(new Event('input')); send();
   };
-  recognition.onend = () => {
-    listening = false;
+  recognition.onend=()=>{
+    listening=false;
     document.getElementById('micBtn').classList.remove('listening');
-    document.getElementById('micBtn').textContent = '🎤';
+    document.getElementById('micBtn').textContent='🎤';
     document.getElementById('waveform').classList.remove('active');
-    document.getElementById('st').textContent = 'SYSTEMS ONLINE · READY';
+    document.getElementById('st').textContent='MARK III · ALL SYSTEMS NOMINAL';
   };
-  recognition.onerror = () => { recognition.stop(); };
+  recognition.onerror=()=>recognition.stop();
   recognition.start();
 }
 
-// Speak response
-function speak(text) {
-  if (!('speechSynthesis' in window)) return;
-  const clean = text.replace(/```[\s\S]*?```/g,'').replace(/[#*`]/g,'').trim().slice(0,300);
-  const utt = new SpeechSynthesisUtterance(clean);
-  utt.rate = 0.95; utt.pitch = 0.85; utt.volume = 1;
-  const voices = speechSynthesis.getVoices();
-  const preferred = voices.find(v => v.name.includes('Google UK English Male') || v.name.includes('Daniel') || v.name.includes('Arthur'));
-  if (preferred) utt.voice = preferred;
+// WAKE WORD MODE (best effort in browser)
+function toggleWakeMode(){
+  if(wakeMode){stopWakeMode();return;}
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){
+    alert('Wake word mode requires Chrome.');return;
+  }
+  wakeMode=true;
+  document.getElementById('wakeStatus').textContent='WAKE WORD: ACTIVE 🔴';
+  document.getElementById('wakeOverlay').classList.add('active');
+  startWakeListening();
+}
+
+function stopWakeMode(){
+  wakeMode=false;
+  if(wakeRecognition){try{wakeRecognition.stop();}catch(e){}}
+  document.getElementById('wakeStatus').textContent='WAKE WORD: OFF';
+  document.getElementById('wakeOverlay').classList.remove('active');
+}
+
+function startWakeListening(){
+  if(!wakeMode)return;
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  wakeRecognition=new SR();
+  wakeRecognition.lang='en-US';
+  wakeRecognition.continuous=false;
+  wakeRecognition.interimResults=false;
+  wakeRecognition.onresult=(e)=>{
+    const txt=e.results[0][0].transcript.toLowerCase();
+    if(txt.includes('hey jarvis')||txt.includes('jarvis')||txt.includes('ok jarvis')){
+      document.getElementById('wakeOverlay').classList.remove('active');
+      speak('Yes, '+userName+'?');
+      setTimeout(()=>{ toggleMic(); },800);
+      setTimeout(()=>{ if(wakeMode)startWakeListening(); },6000);
+    } else {
+      setTimeout(()=>startWakeListening(),300);
+    }
+  };
+  wakeRecognition.onend=()=>{ if(wakeMode)setTimeout(()=>startWakeListening(),500); };
+  wakeRecognition.onerror=()=>{ if(wakeMode)setTimeout(()=>startWakeListening(),1000); };
+  try{wakeRecognition.start();}catch(e){}
+}
+
+// TAP OVERLAY TO DISMISS
+document.getElementById('wakeOverlay').addEventListener('click',()=>stopWakeMode());
+
+// SPEAK
+function speak(text){
+  if(!('speechSynthesis' in window))return;
+  window.speechSynthesis.cancel();
+  const clean=text.replace(/```[\s\S]*?```/g,'').replace(/[#*`▸◈]/g,'').trim().slice(0,400);
+  const utt=new SpeechSynthesisUtterance(clean);
+  utt.rate=0.92; utt.pitch=0.8; utt.volume=1;
+  const voices=speechSynthesis.getVoices();
+  const preferred=voices.find(v=>v.name.includes('Google UK English Male')||v.name.includes('Daniel')||v.name.includes('Arthur')||v.name.includes('Male'));
+  if(preferred)utt.voice=preferred;
   speechSynthesis.speak(utt);
 }
 
-function parseMap(text) {
-  const m = text.match(/```map\s*([\s\S]*?)```/);
-  if (!m) return null;
-  try { return JSON.parse(m[1].trim()); } catch { return null; }
-}
-function parseWeather(text) {
-  const m = text.match(/```weather\s*([\s\S]*?)```/);
-  if (!m) return null;
-  try { return JSON.parse(m[1].trim()); } catch { return null; }
-}
+function parseMap(t){const m=t.match(/```map\s*([\s\S]*?)```/);if(!m)return null;try{return JSON.parse(m[1].trim());}catch{return null;}}
+function parseWeather(t){const m=t.match(/```weather\s*([\s\S]*?)```/);if(!m)return null;try{return JSON.parse(m[1].trim());}catch{return null;}}
 
-function md(text) {
-  let t = text.replace(/```[\s\S]*?```/g,'').trim();
-  t = t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
-  t = t.replace(/\*(.*?)\*/g,'<em>$1</em>');
-  t = t.replace(/`([^`]+)`/g,'<code>$1</code>');
-  t = t.replace(/^### (.+)/gm,'<h4>$1</h4>');
-  t = t.replace(/^## (.+)/gm,'<h3>$1</h3>');
-  t = t.replace(/^# (.+)/gm,'<h2>$1</h2>');
-  t = t.replace(/^- (.+)/gm,'<div class="li"><span class="ar">▸</span><span>$1</span></div>');
-  t = t.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+function md(text){
+  let t=text.replace(/```[\s\S]*?```/g,'').trim();
+  t=t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  t=t.replace(/\*(.*?)\*/g,'<em>$1</em>');
+  t=t.replace(/`([^`]+)`/g,'<code>$1</code>');
+  t=t.replace(/^### (.+)/gm,'<h4>$1</h4>');
+  t=t.replace(/^## (.+)/gm,'<h3>$1</h3>');
+  t=t.replace(/^# (.+)/gm,'<h2>$1</h2>');
+  t=t.replace(/^- (.+)/gm,'<div class="li"><span class="ar">▸</span><span>$1</span></div>');
+  t=t.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
   return t;
 }
 
-function mapCard(data) {
-  const l = data.locations[0];
-  const bbox = `${l.lng-.07},${l.lat-.07},${l.lng+.07},${l.lat+.07}`;
-  const osm = `https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${l.lat},${l.lng}`;
-  const gmLink = `https://maps.google.com/?q=${l.lat},${l.lng}`;
-  const pins = data.locations.map(x=>`<div class="map-pin"><span>▸</span>${x.name}${x.note?' — '+x.note:''}</div>`).join('');
-  return `<div class="map-card">
-    <div class="map-title"><span>◈ MAP · ${data.title}</span><a href="${gmLink}" target="_blank" class="map-open-btn">OPEN IN MAPS ↗</a></div>
-    <iframe src="${osm}" loading="lazy"></iframe>
-    <div class="map-pins">${pins}</div>
-  </div>`;
+function mapCard(data){
+  const l=data.locations[0];
+  const bbox=`${l.lng-.07},${l.lat-.07},${l.lng+.07},${l.lat+.07}`;
+  const osm=`https://www.openstreetmap.org/export/embed.html?bbox=${bbox}&layer=mapnik&marker=${l.lat},${l.lng}`;
+  const gm=`https://maps.google.com/?q=${l.lat},${l.lng}`;
+  const pins=data.locations.map(x=>`<div class="map-pin"><span>▸</span>${x.name}${x.note?' — '+x.note:''}</div>`).join('');
+  return `<div class="map-card"><div class="map-title"><span>◈ MAP · ${data.title}</span><a href="${gm}" target="_blank" class="map-open">GOOGLE MAPS ↗</a></div><iframe src="${osm}" loading="lazy"></iframe><div class="map-pins">${pins}</div></div>`;
 }
 
-function weatherCard(data) {
-  return `<div class="weather-card">
-    <div class="weather-icon">${data.icon}</div>
-    <div class="weather-info">
-      <div class="weather-temp">${data.temp}</div>
-      <div class="weather-desc">${data.desc}</div>
-      <div class="weather-location">◈ ${data.location}</div>
-      <div class="weather-details">
-        <div class="weather-detail">Feels <span>${data.feels}</span></div>
-        <div class="weather-detail">Humidity <span>${data.humidity}</span></div>
-        <div class="weather-detail">Wind <span>${data.wind}</span></div>
-      </div>
-    </div>
-  </div>`;
+function weatherCard(data){
+  return `<div class="weather-card"><div class="wc-top"><div class="wc-icon">${data.icon}</div><div><div class="wc-temp">${data.temp}</div><div class="wc-desc">${data.desc}</div><div class="wc-loc">◈ ${data.location}</div></div></div><div class="wc-details"><div class="wc-d">Feels <span>${data.feels}</span></div><div class="wc-d">Humidity <span>${data.humidity}</span></div><div class="wc-d">Wind <span>${data.wind}</span></div></div></div>`;
 }
 
-function addMsg(role, content) {
-  if (role==='user') document.getElementById('suggestions').innerHTML='';
-  const msgs = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className = `msg ${role}`;
-  const icon = role==='user'?'◉':'◈';
-  const mapData = role==='assistant' ? parseMap(content) : null;
-  const weatherData = role==='assistant' ? parseWeather(content) : null;
-  const body = role==='assistant' ? md(content) : content.replace(/</g,'&lt;');
-  div.innerHTML = `<div class="ma">${icon}</div><div class="mb"><div class="bubble">${body}</div>${mapData?mapCard(mapData):''}${weatherData?weatherCard(weatherData):''}</div>`;
+function addMsg(role,content){
+  if(role==='user')document.getElementById('suggestions').innerHTML='';
+  const msgs=document.getElementById('messages');
+  const div=document.createElement('div');
+  div.className=`msg ${role}`;
+  const icon=role==='user'?'◉':'◈';
+  const mapData=role==='assistant'?parseMap(content):null;
+  const weatherData=role==='assistant'?parseWeather(content):null;
+  const body=role==='assistant'?md(content):content.replace(/</g,'&lt;');
+  div.innerHTML=`<div class="ma">${icon}</div><div class="mb"><div class="bubble">${body}</div>${mapData?mapCard(mapData):''}${weatherData?weatherCard(weatherData):''}</div>`;
   msgs.appendChild(div);
-  msgs.scrollTop = msgs.scrollHeight;
+  msgs.scrollTop=msgs.scrollHeight;
 }
 
-function showTyping() {
-  const msgs = document.getElementById('messages');
-  const div = document.createElement('div');
-  div.className='msg assistant'; div.id='typ';
+function showTyping(){
+  const msgs=document.getElementById('messages');
+  const div=document.createElement('div');
+  div.className='msg assistant';div.id='typ';
   div.innerHTML=`<div class="ma">◈</div><div class="mb"><div class="bubble"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div></div>`;
-  msgs.appendChild(div); msgs.scrollTop=msgs.scrollHeight;
+  msgs.appendChild(div);msgs.scrollTop=msgs.scrollHeight;
 }
-function hideTyping() { const t=document.getElementById('typ'); if(t)t.remove(); }
+function hideTyping(){const t=document.getElementById('typ');if(t)t.remove();}
 
-async function send() {
-  const text = inp.value.trim();
-  if (!text || busy || !apiKey) return;
-  busy=true; inp.value=''; inp.style.height='auto';
+async function send(){
+  const text=inp.value.trim();
+  if(!text||busy||!apiKey)return;
+  busy=true;inp.value='';inp.style.height='auto';
   document.getElementById('sb').disabled=true;
-  document.getElementById('st').textContent='PROCESSING…';
+  document.getElementById('st').textContent='PROCESSING COMMAND…';
+  document.getElementById('statusText').textContent='PROCESSING';
+
+  // Save to memory if "remember"
+  if(text.toLowerCase().includes('remember')){
+    memory.notes=memory.notes||[];
+    memory.notes.push(text);
+    localStorage.setItem('jv3_memory',JSON.stringify(memory));
+  }
+
+  // Build context with memory
+  const memContext=memory.notes?.length?`\nUser memory notes: ${memory.notes.join('; ')}`:'';
   history.push({role:'user',content:text});
   addMsg('user',text);
   showTyping();
 
-  try {
-    const res = await fetch('https://api.groq.com/openai/v1/chat/completions',{
+  try{
+    const res=await fetch('https://api.groq.com/openai/v1/chat/completions',{
       method:'POST',
       headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
       body:JSON.stringify({
         model:'llama-3.3-70b-versatile',
         max_tokens:1000,
-        messages:[{role:'system',content:SYSTEM(userName)},...history]
+        messages:[{role:'system',content:SYSTEM(userName)+memContext},...history]
       })
     });
-    const data = await res.json();
+    const data=await res.json();
     hideTyping();
     if(data.error){
-      addMsg('assistant',`⚠️ ${data.error.message}`);
-    } else {
-      const reply = data.choices[0].message.content;
+      addMsg('assistant',`⚠️ System error: ${data.error.message}`);
+    }else{
+      const reply=data.choices[0].message.content;
       history.push({role:'assistant',content:reply});
       addMsg('assistant',reply);
       speak(reply);
     }
-  } catch(e) {
+  }catch(e){
     hideTyping();
-    addMsg('assistant','⚠️ Connection error. Check your internet and try again.');
+    addMsg('assistant','⚠️ Connection error. Check your internet connection, '+userName+'.');
   }
   busy=false;
-  document.getElementById('st').textContent='SYSTEMS ONLINE · READY';
+  document.getElementById('st').textContent='MARK III · ALL SYSTEMS NOMINAL';
+  document.getElementById('statusText').textContent='ONLINE';
   inp.focus();
 }
 
-window.onload = () => {
-  const k = localStorage.getItem('j_key');
-  const n = localStorage.getItem('j_name');
-  if(k){ apiKey=k; userName=n||'sir'; showApp(); }
+window.onload=()=>{
+  const k=localStorage.getItem('jv3_key');
+  const n=localStorage.getItem('jv3_name');
+  if(k){apiKey=k;userName=n||'sir';memory=JSON.parse(localStorage.getItem('jv3_memory')||'{}');showApp();}
   speechSynthesis.getVoices();
 };
 </script>
