@@ -1,0 +1,1200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
+<meta name="apple-mobile-web-app-title" content="ECHO"/>
+<meta name="theme-color" content="#0a0010"/>
+<title>E.C.H.O · SPIDER-VERSE</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' fill='%230a0010'/%3E%3Cellipse cx='256' cy='256' rx='180' ry='120' fill='none' stroke='%23e3001b' stroke-width='8'/%3E%3Cline x1='76' y1='256' x2='436' y2='256' stroke='%23e3001b' stroke-width='5'/%3E%3Cline x1='256' y1='136' x2='256' y2='376' stroke='%23e3001b' stroke-width='5'/%3E%3Cline x1='130' y1='160' x2='382' y2='352' stroke='%23e3001b' stroke-width='3'/%3E%3Cline x1='382' y1='160' x2='130' y2='352' stroke='%23e3001b' stroke-width='3'/%3E%3Ccircle cx='256' cy='256' r='30' fill='%23e3001b'/%3E%3C/svg%3E"/>
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%230a0010'/%3E%3Cellipse cx='256' cy='220' rx='150' ry='100' fill='none' stroke='%23e3001b' stroke-width='8'/%3E%3Cline x1='106' y1='220' x2='406' y2='220' stroke='%23e3001b' stroke-width='5'/%3E%3Cline x1='256' y1='120' x2='256' y2='320' stroke='%23e3001b' stroke-width='5'/%3E%3Ccircle cx='256' cy='220' r='28' fill='%23e3001b'/%3E%3Ctext x='256' y='430' text-anchor='middle' font-family='monospace' font-size='48' font-weight='bold' fill='%23e3001b' letter-spacing='6'%3EECHO%3C/text%3E%3C/svg%3E"/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Rajdhani:wght@300;400;500;600;700&family=Share+Tech+Mono&family=Bangers&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --g:#e3001b;--g2:#b50015;--gg:rgba(227,0,27,.4);--gd:rgba(227,0,27,.1);
+  --bg:#050008;--bg1:#08000f;--bg2:#0d0018;
+  --tx:#f0e0f5;--txd:#7a5080;--br:rgba(227,0,27,.2);
+  --acc:#9b1fff;--acc2:rgba(155,31,255,.3);
+}
+html,body{height:100%;background:var(--bg);color:var(--tx);font-family:'Rajdhani',sans-serif;overflow:hidden;-webkit-tap-highlight-color:transparent;}
+
+/* ── SPIDER-VERSE BACKGROUND HALFTONE ── */
+body::before{content:'';position:fixed;inset:0;background-image:radial-gradient(circle,rgba(227,0,27,.06) 1px,transparent 1px);background-size:18px 18px;pointer-events:none;z-index:0;}
+
+/* ANIMATIONS */
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes spinR{to{transform:rotate(-360deg)}}
+@keyframes gp{0%,100%{opacity:.4}50%{opacity:1}}
+@keyframes fu{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bl{0%,100%{opacity:.15;transform:scale(.7)}50%{opacity:1;transform:scale(1)}}
+@keyframes wave{0%,100%{height:3px}50%{height:20px}}
+@keyframes scan{0%{top:-5%}100%{top:105%}}
+@keyframes scan2{0%{top:105%}100%{top:-5%}}
+@keyframes flick{0%,88%,90%,95%,100%{opacity:1}89%{opacity:.7}94%{opacity:.85}}
+@keyframes rp{0%{transform:scale(1);opacity:.6}100%{transform:scale(2.4);opacity:0}}
+@keyframes fadeIn{to{opacity:1}}
+@keyframes cIn{to{opacity:.35}}
+@keyframes rcIn{from{opacity:0;transform:scale(.4)}to{opacity:1;transform:scale(1)}}
+@keyframes tIn{from{opacity:0;letter-spacing:22px}to{opacity:1;letter-spacing:8px}}
+@keyframes sweep{0%{top:-2%}100%{top:102%}}
+@keyframes logIn{to{opacity:1;transform:translateX(0)}}
+@keyframes cPulse{0%,100%{box-shadow:0 0 20px var(--g),0 0 40px var(--gg)}50%{box-shadow:0 0 50px var(--g),0 0 100px var(--gg)}}
+@keyframes glitch{0%,95%,100%{clip-path:none;transform:none;filter:none}96%{clip-path:polygon(0 20%,100% 20%,100% 25%,0 25%);transform:translateX(6px);filter:hue-rotate(90deg)}97%{clip-path:polygon(0 60%,100% 60%,100% 65%,0 65%);transform:translateX(-6px);filter:hue-rotate(-90deg)}98%{clip-path:none;transform:none;filter:none}}
+@keyframes bootOut{to{opacity:0;transform:scale(1.04);pointer-events:none}}
+@keyframes breathe{0%,100%{box-shadow:0 0 8px var(--gg)}50%{box-shadow:0 0 22px var(--gg)}}
+@keyframes pageFade{from{opacity:0;transform:translateY(5px)}to{opacity:1;transform:translateY(0)}}
+@keyframes bat{0%,100%{opacity:.6}50%{opacity:1}}
+@keyframes ring{0%{transform:scale(1);opacity:.5}100%{transform:scale(2);opacity:0}}
+@keyframes slideUp{from{opacity:0;transform:translateY(100%)}to{opacity:1;transform:translateY(0)}}
+@keyframes webSwing{0%{transform:rotate(-5deg) translateX(-2px)}50%{transform:rotate(5deg) translateX(2px)}100%{transform:rotate(-5deg) translateX(-2px)}}
+@keyframes spiderPulse{0%,100%{filter:drop-shadow(0 0 6px var(--g))}50%{filter:drop-shadow(0 0 18px var(--g)) drop-shadow(0 0 30px var(--acc))}}
+@keyframes maskReveal{0%{opacity:0;transform:scale(0.3) rotate(-20deg)}60%{transform:scale(1.08) rotate(3deg)}100%{opacity:1;transform:scale(1) rotate(0deg)}}
+@keyframes webDraw{from{stroke-dashoffset:800}to{stroke-dashoffset:0}}
+@keyframes morphLogo{0%{d:path("M256,80 C160,80 80,160 80,256 C80,352 160,430 256,430 C352,430 430,352 430,256 C430,160 352,80 256,80 Z M256,130 C324,130 380,186 380,256 C380,326 324,380 256,380 C188,380 132,326 132,256 C132,186 188,130 256,130 Z")}50%{d:path("M256,60 C256,60 180,100 120,180 C80,240 80,300 120,340 C170,390 256,420 256,420 C256,420 342,390 392,340 C432,300 432,240 392,180 C332,100 256,60 256,60 Z")}100%{d:path("M256,70 L320,160 L430,160 L350,230 L380,340 L256,270 L132,340 L162,230 L82,160 L192,160 Z")}}
+@keyframes accentPulse{0%,100%{opacity:.3}50%{opacity:.7}}
+
+/* BOOT */
+#boot{position:fixed;inset:0;z-index:999;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;}
+#boot.done{animation:bootOut .8s ease forwards;}
+#boot::before{content:'';position:absolute;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.18) 2px,rgba(0,0,0,.18) 4px);pointer-events:none;z-index:10;}
+.bg{position:absolute;inset:0;background-image:radial-gradient(circle, rgba(227,0,27,.05) 1px, transparent 1px),linear-gradient(rgba(227,0,27,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(227,0,27,.03) 1px,transparent 1px);background-size:20px 20px,44px 44px,44px 44px;opacity:0;animation:fadeIn .5s .3s forwards;}
+.bsw{position:absolute;left:0;right:0;height:2px;top:-10px;background:linear-gradient(90deg,transparent,rgba(227,0,27,.9),transparent);animation:sweep 1.2s ease-in-out 3;}
+.bc{position:absolute;width:28px;height:28px;border-color:var(--g);border-style:solid;opacity:0;}
+.bc.tl{top:14px;left:14px;border-width:2px 0 0 2px;animation:cIn .3s .5s forwards;}
+.bc.tr{top:14px;right:14px;border-width:2px 2px 0 0;animation:cIn .3s .6s forwards;}
+.bc.bl{bottom:14px;left:14px;border-width:0 0 2px 2px;animation:cIn .3s .7s forwards;}
+.bc.br{bottom:14px;right:14px;border-width:0 2px 2px 0;animation:cIn .3s .8s forwards;}
+.bgl{position:absolute;inset:0;pointer-events:none;animation:glitch 3s infinite;}
+
+/* BOOT LOGO - Spider-Man mask that morphs to spider logo */
+.breactor{position:relative;width:160px;height:160px;margin-bottom:26px;opacity:0;animation:maskReveal .8s .4s ease forwards;}
+.boot-spider-svg{width:160px;height:160px;filter:drop-shadow(0 0 20px rgba(227,0,27,.7));animation:spiderPulse 2s ease-in-out infinite;}
+.web-line{stroke-dasharray:800;stroke-dashoffset:800;animation:webDraw 1.2s .6s ease forwards;}
+
+.btitle{font-family:'Bebas Neue',sans-serif;font-size:42px;color:var(--g);letter-spacing:8px;font-weight:400;text-shadow:0 0 30px var(--g),0 0 60px var(--gg);opacity:0;animation:tIn .5s .9s forwards;}
+.bsub{font-family:'Share Tech Mono',monospace;font-size:10px;color:rgba(227,0,27,.4);letter-spacing:3px;margin-top:7px;opacity:0;animation:fadeIn .4s 1.2s forwards;}
+.blog{margin-top:26px;width:90%;max-width:330px;font-family:'Share Tech Mono',monospace;font-size:11px;color:rgba(227,0,27,.75);line-height:1.8;opacity:0;animation:fadeIn .3s 1.4s forwards;min-height:130px;}
+.ll{opacity:0;transform:translateX(-10px);}
+.ll.s{animation:logIn .2s forwards;}
+.lok{color:#00ff88;}.lwarn{color:var(--acc);}
+.bprog{margin-top:16px;width:90%;max-width:330px;opacity:0;animation:fadeIn .3s 1.5s forwards;}
+.bpl{font-family:'Bebas Neue',sans-serif;font-size:11px;color:rgba(227,0,27,.5);letter-spacing:2px;margin-bottom:5px;display:flex;justify-content:space-between;}
+.bpt{height:3px;background:rgba(227,0,27,.1);border-radius:2px;overflow:hidden;}
+.bpf{height:100%;width:0%;background:linear-gradient(90deg,var(--g2),var(--g),#ff4060);border-radius:2px;transition:width .1s;box-shadow:0 0 8px var(--g);}
+
+/* SETUP */
+#setup{position:fixed;inset:0;display:none;flex-direction:column;align-items:center;justify-content:center;background:var(--bg1);padding:22px 18px;z-index:200;overflow-y:auto;}
+#setup.show{display:flex;}
+.sl{display:flex;flex-direction:column;align-items:center;margin-bottom:20px;}
+.sarc{width:70px;height:70px;position:relative;margin-bottom:10px;}
+.sr{position:absolute;border-radius:50%;border:2px solid var(--g);}
+.sr1{inset:0;animation:spin 3s linear infinite;}
+.sr2{inset:9px;border-style:dashed;animation:spinR 2s linear infinite;opacity:.6;}
+.sr3{inset:18px;animation:spin 5s linear infinite;opacity:.3;}
+.score{position:absolute;inset:26px;background:radial-gradient(circle,#fff 0%,var(--g) 60%,var(--g2) 100%);border-radius:50%;box-shadow:0 0 16px var(--g);}
+.stitle{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--g);letter-spacing:6px;}
+.ssub{font-size:10px;color:rgba(227,0,27,.35);letter-spacing:3px;font-family:'Share Tech Mono',monospace;margin-top:2px;}
+.sbox{width:100%;max-width:340px;}
+.sstep{background:rgba(227,0,27,.04);border:1px solid var(--br);border-radius:10px;padding:12px;margin-bottom:8px;}
+.slbl{font-size:9px;color:var(--g);font-family:'Bebas Neue',sans-serif;letter-spacing:2px;margin-bottom:5px;font-size:12px;}
+.snote{font-size:12px;color:var(--txd);line-height:1.5;}
+.snote a{color:var(--g);}
+.snote strong{color:var(--tx);}
+.badge{display:inline-block;background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.3);color:#00ff88;font-size:9px;padding:1px 7px;border-radius:8px;margin-left:5px;font-family:monospace;}
+.sinp{width:100%;background:rgba(227,0,27,.05);border:1px solid var(--br);border-radius:8px;padding:11px 12px;color:var(--tx);font-size:14px;font-family:'Rajdhani',sans-serif;outline:none;caret-color:var(--g);margin-top:6px;}
+.sinp.m{font-family:'Share Tech Mono',monospace;font-size:12px;}
+.sinp:focus{border-color:rgba(227,0,27,.55);}
+.sbtn{width:100%;padding:13px;margin-top:8px;background:rgba(227,0,27,.15);border:1px solid rgba(227,0,27,.5);border-radius:10px;color:var(--g);font-family:'Bebas Neue',sans-serif;font-size:14px;letter-spacing:3px;cursor:pointer;}
+.sbtn:active{background:rgba(227,0,27,.28);}
+
+/* MAIN APP */
+#app{display:none;flex-direction:column;height:100vh;height:100dvh;}
+#app.show{display:flex;}
+
+/* HUD */
+.hud{position:fixed;inset:0;pointer-events:none;z-index:0;}
+.hg{position:absolute;inset:0;background-image:radial-gradient(circle,rgba(227,0,27,.04) 1px,transparent 1px),linear-gradient(rgba(227,0,27,.015) 1px,transparent 1px),linear-gradient(90deg,rgba(227,0,27,.015) 1px,transparent 1px);background-size:20px 20px,50px 50px,50px 50px;}
+.hv{position:absolute;inset:0;background:radial-gradient(ellipse at center,transparent 25%,rgba(5,0,8,.92) 100%);}
+.hgl{position:absolute;top:-15%;left:50%;transform:translateX(-50%);width:100vw;height:55vh;background:radial-gradient(ellipse,rgba(227,0,27,.06) 0%,transparent 65%);animation:gp 5s ease-in-out infinite;}
+.hs1{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(227,0,27,.5),transparent);animation:scan 10s linear infinite;}
+.hs2{position:absolute;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(155,31,255,.15),transparent);animation:scan2 18s linear infinite;}
+.hc{position:absolute;width:16px;height:16px;border-color:var(--g);border-style:solid;opacity:.2;}
+.hc.tl{top:6px;left:6px;border-width:2px 0 0 2px;}
+.hc.tr{top:6px;right:6px;border-width:2px 2px 0 0;}
+
+/* HEADER */
+header{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--br);background:rgba(5,0,8,.98);backdrop-filter:blur(24px);flex-shrink:0;position:relative;z-index:10;}
+/* Spider logo in header */
+.hreactor{position:relative;width:34px;height:34px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.hreactor svg{width:32px;height:32px;animation:spiderPulse 3s ease-in-out infinite;}
+.hr1,.hr2,.hrcore,.hrp{display:none;}/* hide old iron man rings */
+.ht{flex:1;min-width:0;}
+.ht h1{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:4px;color:var(--g);font-weight:400;text-shadow:0 0 12px var(--gg);animation:flick 9s infinite;}
+.ht p{font-size:9px;color:rgba(227,0,27,.38);letter-spacing:1px;font-family:'Share Tech Mono',monospace;}
+.hclk{text-align:right;flex-shrink:0;}
+#clk{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--g);letter-spacing:2px;}
+#dt{font-size:8px;color:rgba(227,0,27,.38);font-family:monospace;letter-spacing:1px;}
+.hbtn{font-size:12px;color:rgba(227,0,27,.38);cursor:pointer;padding:5px 7px;border:1px solid rgba(227,0,27,.18);border-radius:6px;font-family:'Bebas Neue',sans-serif;background:none;flex-shrink:0;margin-left:3px;letter-spacing:1px;}
+.hbtn:active{color:var(--g);border-color:var(--g);}
+
+/* STRIP */
+#strip{display:flex;border-bottom:1px solid var(--br);background:rgba(5,0,8,.96);flex-shrink:0;position:relative;z-index:9;}
+.sp{flex:1;padding:7px 10px;border-right:1px solid rgba(227,0,27,.08);}
+.sp:last-child{border-right:none;}
+.splbl{font-family:'Bebas Neue',sans-serif;font-size:8px;color:rgba(227,0,27,.35);letter-spacing:1px;margin-bottom:2px;}
+.spval{font-family:'Bebas Neue',sans-serif;font-size:14px;color:var(--g);font-weight:400;line-height:1;}
+.spsub{font-size:8px;color:rgba(227,0,27,.35);font-family:'Share Tech Mono',monospace;margin-top:1px;}
+.bat{display:flex;align-items:center;gap:3px;}
+.batb{width:22px;height:10px;border:1.5px solid rgba(227,0,27,.45);border-radius:2px;overflow:hidden;position:relative;}
+.batt{width:3px;height:5px;background:rgba(227,0,27,.35);border-radius:0 2px 2px 0;flex-shrink:0;}
+.batf{position:absolute;left:0;top:0;bottom:0;background:var(--g);border-radius:1px;transition:width .5s;}
+.batp{font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--g);}
+
+/* PAGES CONTAINER */
+#pages{flex:1;overflow:hidden;position:relative;z-index:1;}
+
+/* Each page */
+.page{position:absolute;inset:0;overflow-y:auto;opacity:0;pointer-events:none;transform:translateY(6px);transition:opacity .25s ease,transform .25s ease;}
+.page.active{opacity:1;pointer-events:all;transform:translateY(0);}
+.page::-webkit-scrollbar{width:2px;}
+.page::-webkit-scrollbar-thumb{background:rgba(227,0,27,.2);border-radius:2px;}
+.page-inner{padding:14px;}
+
+/* BOTTOM NAV */
+#nav{display:flex;border-top:1px solid var(--br);background:rgba(5,0,8,.98);backdrop-filter:blur(24px);flex-shrink:0;position:relative;z-index:10;}
+.nb{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:8px 2px 10px;cursor:pointer;border:none;background:none;color:rgba(227,0,27,.3);font-family:'Bebas Neue',sans-serif;font-size:8px;letter-spacing:.5px;gap:3px;transition:color .2s;position:relative;}
+.nb.active{color:var(--g);}
+.nb.active::before{content:'';position:absolute;top:0;left:15%;right:15%;height:2px;background:var(--g);box-shadow:0 0 8px var(--g);}
+.nb-icon{font-size:17px;line-height:1;}
+
+/* ═══════════ DASHBOARD ═══════════ */
+.dash-hero{background:rgba(227,0,27,.04);border:1px solid var(--br);border-radius:12px;padding:14px;margin-bottom:12px;position:relative;overflow:hidden;}
+.dash-hero::after{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,rgba(155,31,255,.08),transparent 70%);pointer-events:none;}
+.dash-hero-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.darc{position:relative;width:50px;height:50px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+.darc svg{width:48px;height:48px;animation:spiderPulse 2.5s ease-in-out infinite;}
+.da1,.da2,.dac{display:none;}
+.dash-name{font-family:'Bebas Neue',sans-serif;font-size:22px;color:var(--g);font-weight:400;letter-spacing:3px;}
+.dash-greet{font-size:13px;color:var(--txd);margin-top:2px;}
+
+.dash-stats{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.dstat{background:rgba(227,0,27,.04);border:1px solid var(--br);border-radius:10px;padding:12px;position:relative;overflow:hidden;}
+.dstat::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(227,0,27,.4),transparent);}
+.dslbl{font-family:'Bebas Neue',sans-serif;font-size:8px;color:rgba(227,0,27,.35);letter-spacing:1px;margin-bottom:5px;}
+.dsval{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--g);font-weight:400;}
+.dsunit{font-size:10px;color:var(--txd);margin-top:2px;}
+.dsicon{position:absolute;bottom:8px;right:10px;font-size:18px;opacity:.18;}
+
+.dash-wx{background:linear-gradient(135deg,rgba(227,0,27,.05),rgba(155,31,255,.03));border:1px solid var(--br);border-radius:12px;padding:13px;margin-bottom:12px;}
+.dwx-row{display:flex;align-items:center;gap:14px;margin-bottom:10px;}
+.dwx-icon{font-size:38px;}
+.dwx-temp{font-family:'Bebas Neue',sans-serif;font-size:34px;color:var(--g);}
+.dwx-desc{font-size:13px;color:var(--txd);margin-top:2px;}
+.dwx-loc{font-size:9px;color:rgba(227,0,27,.4);font-family:'Share Tech Mono',monospace;margin-top:3px;}
+.dwx-details{display:flex;gap:16px;padding-top:9px;border-top:1px solid rgba(227,0,27,.1);}
+.dwx-d{font-size:12px;color:var(--txd);}
+.dwx-d span{color:var(--g);}
+
+.dq-title{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(227,0,27,.4);letter-spacing:2px;margin-bottom:8px;}
+.dq-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.dqb{background:rgba(227,0,27,.04);border:1px solid var(--br);border-radius:10px;padding:12px;display:flex;align-items:center;gap:8px;cursor:pointer;}
+.dqb:active{background:rgba(227,0,27,.12);}
+.dqb-icon{font-size:20px;}
+.dqb-txt{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(227,0,27,.65);letter-spacing:.5px;line-height:1.5;}
+
+.dnp{background:rgba(227,0,27,.03);border:1px solid var(--br);border-radius:10px;overflow:hidden;}
+.dnp-hdr{padding:9px 12px;border-bottom:1px solid rgba(227,0,27,.08);display:flex;justify-content:space-between;align-items:center;}
+.dnp-title{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(227,0,27,.45);letter-spacing:2px;}
+.dnp-link{font-size:9px;color:rgba(227,0,27,.4);font-family:'Bebas Neue',sans-serif;cursor:pointer;letter-spacing:1px;}
+.dnp-item{padding:9px 12px;border-bottom:1px solid rgba(227,0,27,.05);font-size:13px;color:var(--txd);display:flex;gap:8px;align-items:center;}
+.dnp-item:last-child{border-bottom:none;}
+.dnp-dot{width:5px;height:5px;border-radius:50%;background:var(--g);flex-shrink:0;}
+.dnp-empty{padding:16px;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(227,0,27,.2);letter-spacing:1px;}
+
+/* Miles Morales widget on dashboard */
+.miles-widget{background:linear-gradient(145deg,rgba(10,0,20,.9),rgba(30,0,10,.8));border:1px solid rgba(227,0,27,.3);border-radius:14px;padding:14px 16px;margin-bottom:12px;display:flex;align-items:center;gap:14px;position:relative;overflow:hidden;}
+.miles-widget::before{content:'';position:absolute;inset:0;background-image:radial-gradient(circle,rgba(227,0,27,.04) 1px,transparent 1px);background-size:10px 10px;}
+.miles-widget::after{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(227,0,27,.6),rgba(155,31,255,.4),transparent);}
+.miles-svg-wrap{flex-shrink:0;filter:drop-shadow(0 0 10px rgba(227,0,27,.5));animation:webSwing 4s ease-in-out infinite;}
+.miles-info{flex:1;}
+.miles-title{font-family:'Bebas Neue',sans-serif;font-size:16px;color:var(--g);letter-spacing:3px;line-height:1;}
+.miles-sub{font-size:11px;color:var(--txd);margin-top:3px;font-family:'Share Tech Mono',monospace;}
+.miles-tag{display:inline-block;background:rgba(155,31,255,.15);border:1px solid rgba(155,31,255,.3);color:#c87fff;font-size:8px;padding:2px 8px;border-radius:6px;margin-top:5px;font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+
+/* ═══════════ CHAT ═══════════ */
+#chatPage{padding:0;display:flex;flex-direction:column;}
+#msgs{flex:1;overflow-y:auto;padding:12px 14px;}
+#msgs::-webkit-scrollbar{width:2px;}
+#msgs::-webkit-scrollbar-thumb{background:rgba(227,0,27,.2);}
+.msg{display:flex;gap:9px;margin-bottom:13px;animation:fu .3s ease;}
+.msg.u{flex-direction:row-reverse;}
+.ma{width:27px;height:27px;border-radius:50%;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;border:1px solid var(--br);}
+.msg.u .ma{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.07);color:rgba(255,255,255,.3);}
+.msg.a .ma{background:rgba(227,0,27,.1);color:var(--g);animation:breathe 3s ease-in-out infinite;}
+.mb{max-width:85%;display:flex;flex-direction:column;gap:7px;}
+.bub{padding:10px 13px;font-size:14px;line-height:1.6;font-family:'Rajdhani',sans-serif;}
+.msg.u .bub{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:12px 3px 12px 12px;color:#f0e0f5;}
+.msg.a .bub{background:rgba(227,0,27,.04);border:1px solid rgba(227,0,27,.1);border-radius:3px 12px 12px 12px;color:#c8a0c8;}
+.bub strong{color:#f0e0f5;}.bub em{color:#ff6080;}
+.bub code{background:rgba(227,0,27,.12);padding:2px 5px;border-radius:4px;font-family:'Share Tech Mono',monospace;font-size:.87em;color:var(--g);}
+.bub h2,.bub h3,.bub h4{color:var(--g);margin:8px 0 3px;font-family:'Bebas Neue',sans-serif;font-size:1em;letter-spacing:2px;}
+.li{display:flex;gap:6px;margin:2px 0;}.li .ar{color:var(--g);flex-shrink:0;}
+.typing{display:flex;gap:5px;align-items:center;padding:10px 13px;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--g);opacity:.35;animation:bl 1.2s ease-in-out infinite;}
+.dot:nth-child(2){animation-delay:.2s}.dot:nth-child(3){animation-delay:.4s}
+
+#chips{display:flex;flex-wrap:nowrap;overflow-x:auto;gap:7px;padding:6px 14px;scrollbar-width:none;flex-shrink:0;}
+#chips::-webkit-scrollbar{display:none;}
+.chip{background:rgba(227,0,27,.04);border:1px solid rgba(227,0,27,.16);border-radius:20px;padding:5px 12px;font-size:12px;color:rgba(227,0,27,.6);cursor:pointer;white-space:nowrap;font-family:'Rajdhani',sans-serif;}
+.chip:active{background:rgba(227,0,27,.14);color:var(--g);}
+
+#wf{display:none;align-items:center;justify-content:center;gap:3px;height:32px;padding:0 14px;background:rgba(227,0,27,.04);border-top:1px solid rgba(227,0,27,.08);flex-shrink:0;}
+#wf.on{display:flex;}
+.wb{width:3px;background:var(--g);border-radius:2px;animation:wave .7s ease-in-out infinite;}
+.wb:nth-child(1){animation-delay:0s}.wb:nth-child(2){animation-delay:.08s}.wb:nth-child(3){animation-delay:.14s}
+.wb:nth-child(4){animation-delay:.2s}.wb:nth-child(5){animation-delay:.14s}.wb:nth-child(6){animation-delay:.08s}.wb:nth-child(7){animation-delay:0s}
+#wflbl{font-family:'Bebas Neue',sans-serif;font-size:10px;color:var(--g);letter-spacing:3px;margin-left:10px;animation:gp .8s ease-in-out infinite;}
+
+/* Chat cards */
+.wx{background:linear-gradient(135deg,rgba(227,0,27,.06),rgba(155,31,255,.03));border:1px solid var(--br);border-radius:10px;padding:13px;}
+.wx-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.wx-icon{font-size:34px;}.wx-temp{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--g);}
+.wx-desc{font-size:12px;color:var(--txd);margin-top:2px;}.wx-loc{font-size:9px;color:rgba(227,0,27,.4);font-family:'Share Tech Mono',monospace;margin-top:3px;}
+.wx-row{display:flex;gap:14px;padding-top:9px;border-top:1px solid rgba(227,0,27,.1);}
+.wx-d{font-size:11px;color:var(--txd);}.wx-d span{color:var(--g);}
+.mc{border:1px solid var(--br);border-radius:10px;overflow:hidden;}
+.mc-title{padding:7px 12px;font-size:8px;color:var(--g);font-family:'Bebas Neue',sans-serif;letter-spacing:2px;border-bottom:1px solid rgba(227,0,27,.1);display:flex;justify-content:space-between;align-items:center;}
+.mc iframe{display:block;width:100%;border:none;height:200px;}
+.mc-open{font-size:8px;background:rgba(227,0,27,.1);border:1px solid rgba(227,0,27,.3);color:var(--g);padding:3px 7px;border-radius:5px;text-decoration:none;font-family:'Bebas Neue',sans-serif;}
+.mc-pins{padding:7px 12px;}.mc-pin{font-size:12px;color:var(--txd);margin-bottom:2px;}.mc-pin span{color:var(--g);margin-right:4px;}
+
+/* Chat footer */
+.chat-footer{padding:9px 14px 10px;border-top:1px solid var(--br);background:rgba(5,0,8,.98);flex-shrink:0;}
+.irow{display:flex;gap:7px;align-items:flex-end;background:rgba(227,0,27,.04);border:1px solid var(--br);border-radius:12px;padding:8px 10px;}
+#ui{flex:1;background:transparent;border:none;color:var(--tx);font-size:14px;font-family:'Rajdhani',sans-serif;resize:none;outline:none;caret-color:var(--g);max-height:90px;line-height:1.5;padding:3px 2px;}
+#ui::placeholder{color:rgba(122,80,100,.4);}
+.ibtn{width:34px;height:34px;border-radius:8px;border:none;display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;font-size:14px;}
+#micBtn{background:rgba(227,0,27,.1);color:var(--g);border:1px solid rgba(227,0,27,.25);}
+#micBtn.on{background:rgba(227,0,27,.2);border-color:var(--g);box-shadow:0 0 10px var(--gg);animation:gp .6s ease-in-out infinite;}
+#sb{background:rgba(227,0,27,.14);color:var(--g);border:1px solid rgba(227,0,27,.3);}
+#sb:disabled{opacity:.3;cursor:default;}
+#sb:not(:disabled){box-shadow:0 0 8px rgba(227,0,27,.15);}
+.fhint{text-align:center;margin-top:5px;font-size:8px;color:rgba(227,0,27,.16);font-family:'Share Tech Mono',monospace;letter-spacing:1px;}
+
+/* ═══════════ MAP ═══════════ */
+#mapPage{padding:0;display:flex;flex-direction:column;}
+.map-header{padding:12px 14px;border-bottom:1px solid var(--br);background:rgba(5,0,8,.97);flex-shrink:0;}
+.map-title-bar{font-family:'Bebas Neue',sans-serif;font-size:11px;color:rgba(227,0,27,.5);letter-spacing:3px;margin-bottom:8px;}
+.map-search{display:flex;gap:8px;}
+.map-inp{flex:1;background:rgba(227,0,27,.05);border:1px solid var(--br);border-radius:10px;padding:11px 13px;color:var(--tx);font-size:14px;font-family:'Rajdhani',sans-serif;outline:none;caret-color:var(--g);}
+.map-inp::placeholder{color:rgba(122,80,100,.4);}
+.map-go{background:rgba(227,0,27,.15);border:1px solid rgba(227,0,27,.4);color:var(--g);font-family:'Bebas Neue',sans-serif;font-size:11px;padding:0 16px;border-radius:10px;cursor:pointer;white-space:nowrap;letter-spacing:2px;}
+.map-go:active{background:rgba(227,0,27,.28);}
+#mapIframe{flex:1;border:none;width:100%;min-height:0;}
+.map-presets{padding:10px 14px;border-top:1px solid var(--br);background:rgba(5,0,8,.97);flex-shrink:0;}
+.mp-label{font-family:'Bebas Neue',sans-serif;font-size:9px;color:rgba(227,0,27,.35);letter-spacing:2px;margin-bottom:8px;}
+.mp-scroll{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;padding-bottom:2px;}
+.mp-scroll::-webkit-scrollbar{display:none;}
+.mp-btn{background:rgba(227,0,27,.05);border:1px solid var(--br);border-radius:10px;padding:8px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;flex-shrink:0;min-width:120px;}
+.mp-btn:active{background:rgba(227,0,27,.14);}
+.mp-icon{font-size:16px;}
+.mp-name{font-family:'Bebas Neue',sans-serif;font-size:9px;color:rgba(227,0,27,.7);letter-spacing:.5px;}
+.mp-sub{font-size:10px;color:var(--txd);margin-top:1px;}
+
+/* ═══════════ NOTES ═══════════ */
+.notes-top{padding:12px 14px;border-bottom:1px solid var(--br);background:rgba(5,0,8,.97);flex-shrink:0;}
+.notes-add{display:flex;gap:8px;}
+.notes-inp{flex:1;background:rgba(227,0,27,.05);border:1px solid var(--br);border-radius:10px;padding:11px 13px;color:var(--tx);font-size:14px;font-family:'Rajdhani',sans-serif;outline:none;caret-color:var(--g);}
+.notes-inp::placeholder{color:rgba(122,80,100,.4);}
+.notes-add-btn{background:rgba(227,0,27,.15);border:1px solid rgba(227,0,27,.4);color:var(--g);font-family:'Bebas Neue',sans-serif;font-size:11px;padding:0 14px;border-radius:10px;cursor:pointer;white-space:nowrap;letter-spacing:1px;}
+.notes-add-btn:active{background:rgba(227,0,27,.28);}
+.notes-body{flex:1;overflow-y:auto;padding:12px 14px;}
+.notes-body::-webkit-scrollbar{width:2px;}
+.notes-body::-webkit-scrollbar-thumb{background:rgba(227,0,27,.2);}
+.notes-count{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(227,0,27,.35);letter-spacing:2px;margin-bottom:10px;}
+.note-item{background:rgba(227,0,27,.04);border:1px solid var(--br);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px;animation:fu .25s ease;}
+.note-num{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(227,0,27,.35);flex-shrink:0;margin-top:2px;}
+.note-body{flex:1;}
+.note-text{font-size:14px;color:var(--tx);line-height:1.4;}
+.note-time{font-size:9px;color:rgba(227,0,27,.3);font-family:'Share Tech Mono',monospace;margin-top:4px;letter-spacing:1px;}
+.note-del{background:none;border:none;color:rgba(227,0,27,.25);cursor:pointer;font-size:14px;padding:0;flex-shrink:0;}
+.note-del:active{color:#e74c3c;}
+.notes-empty{text-align:center;color:rgba(227,0,27,.2);font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:2px;margin-top:50px;line-height:2.2;}
+
+/* ═══════════ SETTINGS ═══════════ */
+.set-section{margin-bottom:16px;}
+.set-title{font-family:'Bebas Neue',sans-serif;font-size:10px;color:rgba(227,0,27,.4);letter-spacing:3px;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(227,0,27,.08);}
+.set-item{background:rgba(227,0,27,.04);border:1px solid var(--br);border-radius:10px;padding:12px 14px;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;gap:10px;}
+.set-label{font-size:14px;color:var(--tx);font-weight:600;}
+.set-sub{font-size:11px;color:var(--txd);margin-top:2px;}
+.set-val{font-family:'Bebas Neue',sans-serif;font-size:12px;color:var(--g);letter-spacing:1px;flex-shrink:0;}
+.set-inp2{background:rgba(227,0,27,.06);border:1px solid var(--br);border-radius:7px;padding:8px 10px;color:var(--tx);font-size:13px;font-family:'Share Tech Mono',monospace;outline:none;caret-color:var(--g);width:140px;flex-shrink:0;}
+.set-inp2:focus{border-color:rgba(227,0,27,.5);}
+.set-btn{background:rgba(227,0,27,.12);border:1px solid rgba(227,0,27,.3);color:var(--g);font-family:'Bebas Neue',sans-serif;font-size:10px;padding:7px 13px;border-radius:8px;cursor:pointer;letter-spacing:2px;white-space:nowrap;flex-shrink:0;}
+.set-btn:active{background:rgba(227,0,27,.25);}
+.set-btn.danger{background:rgba(231,76,60,.08);border-color:rgba(231,76,60,.3);color:#e74c3c;}
+.about-box{background:rgba(227,0,27,.04);border:1px solid var(--br);border-radius:12px;padding:16px;text-align:center;margin-bottom:16px;}
+.abarc{position:relative;width:56px;height:56px;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;}
+.abarc svg{width:54px;height:54px;animation:spiderPulse 2s ease-in-out infinite;}
+.ab1,.ab2,.abc{display:none;}
+.ab-name{font-family:'Bebas Neue',sans-serif;font-size:18px;color:var(--g);letter-spacing:4px;}
+.ab-ver{font-size:10px;color:rgba(227,0,27,.38);font-family:'Share Tech Mono',monospace;letter-spacing:2px;margin-top:3px;}
+.ab-desc{font-size:13px;color:var(--txd);margin-top:9px;line-height:1.6;}
+
+/* WAKE OVERLAY */
+#wakeOv{position:fixed;inset:0;z-index:180;display:none;flex-direction:column;align-items:center;justify-content:center;background:rgba(5,0,8,.97);}
+#wakeOv.on{display:flex;}
+.wo-arc{position:relative;width:90px;height:90px;margin-bottom:18px;display:flex;align-items:center;justify-content:center;}
+.wo-arc svg{width:88px;height:88px;animation:spiderPulse 1.5s ease-in-out infinite;}
+.wo-r,.wo-r1,.wo-r2,.wo-r3,.wo-core{display:none;}
+.wo-txt{font-family:'Bebas Neue',sans-serif;font-size:13px;color:var(--g);letter-spacing:3px;animation:gp 1s ease-in-out infinite;}
+.wo-sub{font-size:10px;color:rgba(227,0,27,.38);font-family:'Share Tech Mono',monospace;letter-spacing:2px;margin-top:7px;}
+.wo-dis{margin-top:22px;font-size:10px;color:rgba(227,0,27,.28);font-family:'Bebas Neue',sans-serif;cursor:pointer;border:1px solid rgba(227,0,27,.14);padding:6px 14px;border-radius:8px;letter-spacing:2px;}
+</style>
+</head>
+<body>
+
+<!-- BOOT -->
+<div id="boot">
+  <div class="bg"></div><div class="bsw"></div><div class="bgl"></div>
+  <div class="bc tl"></div><div class="bc tr"></div><div class="bc bl"></div><div class="bc br"></div>
+  <div class="breactor">
+    <!-- Miles Morales Spider-Man mask that morphs to spider logo -->
+    <svg class="boot-spider-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg" id="bootLogoSvg">
+      <defs>
+        <radialGradient id="maskGlow" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stop-color="#ff2040" stop-opacity="0.3"/>
+          <stop offset="100%" stop-color="#e3001b" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="glow">
+          <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+          <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- Glow bg -->
+      <circle cx="100" cy="100" r="95" fill="url(#maskGlow)"/>
+      <!-- Outer web lines - classic Spider-Man logo spider body -->
+      <g filter="url(#glow)" id="spiderLogo">
+        <!-- Spider body -->
+        <ellipse cx="100" cy="88" rx="22" ry="30" fill="#e3001b" opacity="0.95"/>
+        <!-- Spider head -->
+        <circle cx="100" cy="58" r="16" fill="#e3001b"/>
+        <!-- Legs left -->
+        <line class="web-line" x1="80" y1="78" x2="28" y2="52" stroke="#e3001b" stroke-width="5" stroke-linecap="round"/>
+        <line class="web-line" x1="78" y1="90" x2="18" y2="85" stroke="#e3001b" stroke-width="4" stroke-linecap="round" style="animation-delay:.1s"/>
+        <line class="web-line" x1="80" y1="102" x2="25" y2="122" stroke="#e3001b" stroke-width="4" stroke-linecap="round" style="animation-delay:.2s"/>
+        <line class="web-line" x1="84" y1="112" x2="40" y2="148" stroke="#e3001b" stroke-width="3" stroke-linecap="round" style="animation-delay:.25s"/>
+        <!-- Legs right -->
+        <line class="web-line" x1="120" y1="78" x2="172" y2="52" stroke="#e3001b" stroke-width="5" stroke-linecap="round" style="animation-delay:.05s"/>
+        <line class="web-line" x1="122" y1="90" x2="182" y2="85" stroke="#e3001b" stroke-width="4" stroke-linecap="round" style="animation-delay:.15s"/>
+        <line class="web-line" x1="120" y1="102" x2="175" y2="122" stroke="#e3001b" stroke-width="4" stroke-linecap="round" style="animation-delay:.22s"/>
+        <line class="web-line" x1="116" y1="112" x2="160" y2="148" stroke="#e3001b" stroke-width="3" stroke-linecap="round" style="animation-delay:.28s"/>
+        <!-- Miles Morales accent - purple highlight dots -->
+        <circle cx="100" cy="58" r="6" fill="#9b1fff" opacity="0.7"/>
+        <circle cx="100" cy="90" r="4" fill="#9b1fff" opacity="0.5"/>
+      </g>
+      <!-- Web pattern overlay -->
+      <circle cx="100" cy="100" r="92" fill="none" stroke="rgba(227,0,27,0.12)" stroke-width="1"/>
+      <circle cx="100" cy="100" r="70" fill="none" stroke="rgba(227,0,27,0.08)" stroke-width="1"/>
+      <circle cx="100" cy="100" r="48" fill="none" stroke="rgba(227,0,27,0.06)" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="btitle">E.C.H.O</div>
+  <div class="bsub">SPIDER-VERSE · ALL SYSTEMS ONLINE</div>
+  <div class="blog" id="bootLog"></div>
+  <div class="bprog">
+    <div class="bpl"><span>INITIALIZING ECHO</span><span id="bootPct">0%</span></div>
+    <div class="bpt"><div class="bpf" id="bootFill"></div></div>
+  </div>
+</div>
+
+<!-- SETUP -->
+<div id="setup">
+  <div class="sl">
+    <div class="sarc">
+      <svg viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" style="width:70px;height:70px;animation:spiderPulse 2s ease-in-out infinite;">
+        <ellipse cx="40" cy="35" rx="10" ry="14" fill="#e3001b"/>
+        <circle cx="40" cy="22" r="8" fill="#e3001b"/>
+        <line x1="31" y1="30" x2="8" y2="18" stroke="#e3001b" stroke-width="3" stroke-linecap="round"/>
+        <line x1="30" y1="36" x2="4" y2="34" stroke="#e3001b" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="49" y1="30" x2="72" y2="18" stroke="#e3001b" stroke-width="3" stroke-linecap="round"/>
+        <line x1="50" y1="36" x2="76" y2="34" stroke="#e3001b" stroke-width="2.5" stroke-linecap="round"/>
+        <circle cx="40" cy="22" r="3" fill="#9b1fff" opacity="0.8"/>
+      </svg>
+    </div>
+    <div class="stitle">E.C.H.O</div><div class="ssub">SPIDER-VERSE · ENHANCED COMBAT HYBRID ORACLE</div>
+  </div>
+  <div class="sbox">
+    <div class="sstep"><div class="slbl">YOUR NAME</div><input class="sinp" id="nameInp" type="text" placeholder="e.g. Miles" maxlength="20"/></div>
+    <div class="sstep">
+      <div class="slbl">GROQ API KEY <span class="badge">FREE</span></div>
+      <div class="snote">→ <a href="https://console.groq.com" target="_blank"><strong>console.groq.com</strong></a> → sign up → API Keys</div>
+      <input class="sinp m" id="groqInp" type="password" placeholder="gsk_..." autocomplete="off"/>
+    </div>
+    <div class="sstep">
+      <div class="slbl">ELEVENLABS VOICE <span class="badge">FREE · OPTIONAL</span></div>
+      <div class="snote">→ <a href="https://elevenlabs.io" target="_blank"><strong>elevenlabs.io</strong></a> → Developers → API Keys</div>
+      <input class="sinp m" id="elInp" type="password" placeholder="sk_..." autocomplete="off"/>
+    </div>
+    <button class="sbtn" onclick="saveSetup()">▶ ACTIVATE ECHO</button>
+  </div>
+</div>
+
+<!-- WAKE -->
+<div id="wakeOv">
+  <div class="wo-arc">
+    <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:88px;height:88px;animation:spiderPulse 1.5s ease-in-out infinite;">
+      <ellipse cx="50" cy="44" rx="12" ry="16" fill="#e3001b"/>
+      <circle cx="50" cy="28" r="10" fill="#e3001b"/>
+      <line x1="39" y1="36" x2="10" y2="22" stroke="#e3001b" stroke-width="4" stroke-linecap="round"/>
+      <line x1="38" y1="44" x2="5" y2="42" stroke="#e3001b" stroke-width="3" stroke-linecap="round"/>
+      <line x1="61" y1="36" x2="90" y2="22" stroke="#e3001b" stroke-width="4" stroke-linecap="round"/>
+      <line x1="62" y1="44" x2="95" y2="42" stroke="#e3001b" stroke-width="3" stroke-linecap="round"/>
+      <circle cx="50" cy="28" r="4" fill="#9b1fff" opacity="0.9"/>
+    </svg>
+  </div>
+  <div class="wo-txt">LISTENING FOR WAKE WORD</div>
+  <div class="wo-sub">SAY "HEY ECHO"</div>
+  <div class="wo-dis" onclick="stopWake()">TAP TO DISMISS</div>
+</div>
+
+<!-- APP -->
+<div id="app">
+  <div class="hud"><div class="hg"></div><div class="hv"></div><div class="hgl"></div><div class="hs1"></div><div class="hs2"></div><div class="hc tl"></div><div class="hc tr"></div></div>
+
+  <header>
+    <div class="hreactor">
+      <svg viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg">
+        <ellipse cx="20" cy="18" rx="6" ry="8" fill="#e3001b"/>
+        <circle cx="20" cy="10" r="5" fill="#e3001b"/>
+        <line x1="14" y1="14" x2="2" y2="8" stroke="#e3001b" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="14" y1="18" x2="0" y2="17" stroke="#e3001b" stroke-width="2" stroke-linecap="round"/>
+        <line x1="26" y1="14" x2="38" y2="8" stroke="#e3001b" stroke-width="2.5" stroke-linecap="round"/>
+        <line x1="26" y1="18" x2="40" y2="17" stroke="#e3001b" stroke-width="2" stroke-linecap="round"/>
+        <circle cx="20" cy="10" r="2" fill="#9b1fff" opacity="0.9"/>
+      </svg>
+    </div>
+    <div class="ht"><h1>E.C.H.O</h1><p id="st">SPIDER-VERSE · ALL SYSTEMS NOMINAL</p></div>
+    <div class="hclk"><div id="clk">--:--:--</div><div id="dt">---</div></div>
+    <button class="hbtn" onclick="toggleWake()" id="wakeBtn" title="Wake word">👁</button>
+    <button class="hbtn" onclick="goPage('settings')" title="Settings">⚙</button>
+  </header>
+
+  <div id="strip">
+    <div class="sp">
+      <div class="splbl">POWER CELL</div>
+      <div class="bat"><div class="batb"><div class="batf" id="batFill"></div></div><div class="batt"></div><div class="batp" id="batPct">--%</div></div>
+      <div class="spsub" id="batSt">…</div>
+    </div>
+    <div class="sp">
+      <div class="splbl">ATMOSPHERE</div>
+      <div class="spval" id="stripTemp">--°C</div>
+      <div class="spsub" id="stripCity">FETCHING…</div>
+    </div>
+    <div class="sp">
+      <div class="splbl">UPTIME</div>
+      <div class="spval" id="uptime">00:00</div>
+      <div class="spsub" id="wakeStatus">WAKE: OFF</div>
+    </div>
+  </div>
+
+  <div id="pages">
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="dashPage">
+      <div class="page-inner">
+        <!-- Miles Morales Spider-Man Widget -->
+        <div class="miles-widget">
+          <div class="miles-svg-wrap">
+            <svg viewBox="0 0 70 90" xmlns="http://www.w3.org/2000/svg" width="60" height="78">
+              <!-- Miles Morales mask simplified -->
+              <ellipse cx="35" cy="38" rx="28" ry="34" fill="#0a0010" stroke="#e3001b" stroke-width="1.5"/>
+              <!-- Eye lenses - classic large white lenses -->
+              <ellipse cx="22" cy="30" rx="10" ry="7" fill="white" transform="rotate(-15,22,30)"/>
+              <ellipse cx="48" cy="30" rx="10" ry="7" fill="white" transform="rotate(15,48,30)"/>
+              <!-- Eye inner reflection -->
+              <ellipse cx="22" cy="30" rx="6" ry="4" fill="#c0c8ff" opacity="0.5" transform="rotate(-15,22,30)"/>
+              <ellipse cx="48" cy="30" rx="6" ry="4" fill="#c0c8ff" opacity="0.5" transform="rotate(15,48,30)"/>
+              <!-- Web lines on mask -->
+              <path d="M35,4 Q35,38 35,72" stroke="#e3001b" stroke-width="0.7" fill="none" opacity="0.5"/>
+              <path d="M7,22 Q35,28 63,22" stroke="#e3001b" stroke-width="0.7" fill="none" opacity="0.5"/>
+              <path d="M10,38 Q35,43 60,38" stroke="#e3001b" stroke-width="0.7" fill="none" opacity="0.5"/>
+              <path d="M13,54 Q35,58 57,54" stroke="#e3001b" stroke-width="0.7" fill="none" opacity="0.5"/>
+              <!-- Miles purple accent stripe -->
+              <path d="M10,46 Q35,52 60,46" stroke="#9b1fff" stroke-width="1.5" fill="none" opacity="0.6"/>
+              <!-- Spider logo on chest area -->
+              <ellipse cx="35" cy="65" rx="7" ry="9" fill="#e3001b" opacity="0.9"/>
+              <line x1="29" y1="61" x2="18" y2="55" stroke="#e3001b" stroke-width="2" stroke-linecap="round"/>
+              <line x1="28" y1="65" x2="15" y2="64" stroke="#e3001b" stroke-width="1.5" stroke-linecap="round"/>
+              <line x1="41" y1="61" x2="52" y2="55" stroke="#e3001b" stroke-width="2" stroke-linecap="round"/>
+              <line x1="42" y1="65" x2="55" y2="64" stroke="#e3001b" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="miles-info">
+            <div class="miles-title">MILES MORALES</div>
+            <div class="miles-sub">Earth-1610 · Brooklyn, NYC</div>
+            <div class="miles-tag">▸ SPIDER-MAN ACTIVE</div>
+          </div>
+        </div>
+
+        <div class="dash-hero">
+          <div class="dash-hero-row">
+            <div class="darc">
+              <svg viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg">
+                <ellipse cx="25" cy="22" rx="8" ry="10" fill="#e3001b"/>
+                <circle cx="25" cy="12" r="7" fill="#e3001b"/>
+                <line x1="18" y1="17" x2="4" y2="10" stroke="#e3001b" stroke-width="3" stroke-linecap="round"/>
+                <line x1="17" y1="22" x2="2" y2="21" stroke="#e3001b" stroke-width="2" stroke-linecap="round"/>
+                <line x1="32" y1="17" x2="46" y2="10" stroke="#e3001b" stroke-width="3" stroke-linecap="round"/>
+                <line x1="33" y1="22" x2="48" y2="21" stroke="#e3001b" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="25" cy="12" r="3" fill="#9b1fff" opacity="0.8"/>
+              </svg>
+            </div>
+            <div><div class="dash-name" id="heroName">STARK</div><div class="dash-greet" id="heroGreet">Good day, sir.</div></div>
+          </div>
+        </div>
+        <div class="dash-stats">
+          <div class="dstat"><div class="dslbl">MESSAGES</div><div class="dsval" id="statMsgs">0</div><div class="dsunit">TODAY</div><div class="dsicon">💬</div></div>
+          <div class="dstat"><div class="dslbl">NOTES</div><div class="dsval" id="statNotes">0</div><div class="dsunit">STORED</div><div class="dsicon">📌</div></div>
+        </div>
+        <div class="dash-wx">
+          <div class="dwx-row"><div class="dwx-icon" id="dWxIcon">🌡️</div><div><div class="dwx-temp" id="dWxTemp">--°C</div><div class="dwx-desc" id="dWxDesc">Fetching…</div><div class="dwx-loc" id="dWxLoc">◈ LOCATING…</div></div></div>
+          <div class="dwx-details"><div class="dwx-d">Feels <span id="dWxFeels">--</span></div><div class="dwx-d">Wind <span id="dWxWind">--</span></div></div>
+        </div>
+        <div class="dq-title">◈ QUICK COMMANDS</div>
+        <div class="dq-grid">
+          <div class="dqb" onclick="quickCmd('Show map of Algeciras')"><div class="dqb-icon">🗺️</div><div class="dqb-txt">MAP<br/>ALGECIRAS</div></div>
+          <div class="dqb" onclick="quickCmd('What is the weather today?')"><div class="dqb-icon">🌤️</div><div class="dqb-txt">WEATHER<br/>TODAY</div></div>
+          <div class="dqb" onclick="quickCmd('Tell me the latest news')"><div class="dqb-icon">📰</div><div class="dqb-txt">LATEST<br/>NEWS</div></div>
+          <div class="dqb" onclick="quickCmd('Tell me a fun fact')"><div class="dqb-icon">💡</div><div class="dqb-txt">FUN<br/>FACT</div></div>
+        </div>
+        <div class="dnp" style="margin-top:12px;">
+          <div class="dnp-hdr"><div class="dnp-title">◈ RECENT NOTES</div><div class="dnp-link" onclick="goPage('notes')">VIEW ALL →</div></div>
+          <div id="dashNotesList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="page" id="chatPage" style="padding:0;">
+      <div id="msgs"></div>
+      <div id="chips"></div>
+      <div id="wf"><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><div class="wb"></div><span id="wflbl">LISTENING…</span></div>
+      <div class="chat-footer">
+        <div class="irow">
+          <button class="ibtn" id="micBtn" onclick="tapMic()">🎤</button>
+          <textarea id="ui" rows="1" placeholder="Speak or type your command…"></textarea>
+          <button class="ibtn" id="sb" onclick="sendMsg()" disabled>▶</button>
+        </div>
+        <div class="fhint">🎤 TAP = SPEAK · HOLD = WAKE WORD</div>
+      </div>
+    </div>
+
+    <!-- MAP -->
+    <div class="page" id="mapPage" style="padding:0;">
+      <div class="map-header">
+        <div class="map-title-bar">◈ GLOBAL NAVIGATION SYSTEM</div>
+        <div class="map-search">
+          <input class="map-inp" id="mapInp" type="text" placeholder="Search any location in the world…"/>
+          <button class="map-go" onclick="searchMap()">GO ▶</button>
+        </div>
+      </div>
+      <iframe id="mapIframe"
+        src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d200000!2d-5.4527!3d36.1274!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2ses"
+        style="flex:1;border:none;width:100%;min-height:0;"
+        allowfullscreen
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+      <div class="map-presets">
+        <div class="mp-label">◈ PRESET LOCATIONS — SWIPE TO SEE MORE</div>
+        <div class="mp-scroll">
+          <div class="mp-btn" onclick="loadMap('Algeciras Spain')"><div class="mp-icon">⚓</div><div><div class="mp-name">ALGECIRAS</div><div class="mp-sub">Cádiz, Spain</div></div></div>
+          <div class="mp-btn" onclick="loadMap('Madrid Spain')"><div class="mp-icon">👑</div><div><div class="mp-name">MADRID</div><div class="mp-sub">Capital, Spain</div></div></div>
+          <div class="mp-btn" onclick="loadMap('Barcelona Spain')"><div class="mp-icon">🏖️</div><div><div class="mp-name">BARCELONA</div><div class="mp-sub">Cataluña, Spain</div></div></div>
+          <div class="mp-btn" onclick="loadMap('London UK')"><div class="mp-icon">🎡</div><div><div class="mp-name">LONDON</div><div class="mp-sub">United Kingdom</div></div></div>
+          <div class="mp-btn" onclick="loadMap('New York USA')"><div class="mp-icon">🗽</div><div><div class="mp-name">NEW YORK</div><div class="mp-sub">USA</div></div></div>
+          <div class="mp-btn" onclick="loadMap('Tokyo Japan')"><div class="mp-icon">🗼</div><div><div class="mp-name">TOKYO</div><div class="mp-sub">Japan</div></div></div>
+          <div class="mp-btn" onclick="loadMap('Dubai UAE')"><div class="mp-icon">🏙️</div><div><div class="mp-name">DUBAI</div><div class="mp-sub">UAE</div></div></div>
+          <div class="mp-btn" onclick="loadMap('Paris France')"><div class="mp-icon">🗼</div><div><div class="mp-name">PARIS</div><div class="mp-sub">France</div></div></div>
+          <div class="mp-btn" onclick="loadMap('Sydney Australia')"><div class="mp-icon">🦘</div><div><div class="mp-name">SYDNEY</div><div class="mp-sub">Australia</div></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTES -->
+    <div class="page" id="notesPage" style="padding:0;">
+      <div class="notes-top">
+        <div class="notes-add">
+          <input class="notes-inp" id="noteInp" type="text" placeholder="Add a note or reminder…"/>
+          <button class="notes-add-btn" onclick="addNote()">+ ADD</button>
+        </div>
+      </div>
+      <div class="notes-body">
+        <div class="notes-count" id="notesCount">0 NOTES STORED</div>
+        <div id="noteList"></div>
+      </div>
+    </div>
+
+    <!-- SETTINGS -->
+    <div class="page" id="settingsPage">
+      <div class="page-inner">
+        <div class="about-box">
+          <div class="abarc">
+            <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+              <ellipse cx="30" cy="26" rx="9" ry="12" fill="#e3001b"/>
+              <circle cx="30" cy="14" r="9" fill="#e3001b"/>
+              <line x1="22" y1="20" x2="4" y2="11" stroke="#e3001b" stroke-width="3" stroke-linecap="round"/>
+              <line x1="21" y1="26" x2="2" y2="25" stroke="#e3001b" stroke-width="2.5" stroke-linecap="round"/>
+              <line x1="38" y1="20" x2="56" y2="11" stroke="#e3001b" stroke-width="3" stroke-linecap="round"/>
+              <line x1="39" y1="26" x2="58" y2="25" stroke="#e3001b" stroke-width="2.5" stroke-linecap="round"/>
+              <circle cx="30" cy="14" r="4" fill="#9b1fff" opacity="0.85"/>
+            </svg>
+          </div>
+          <div class="ab-name">E.C.H.O</div>
+          <div class="ab-ver">SPIDER-VERSE · BUILD 2025</div>
+          <div class="ab-desc">Enhanced Combat Hybrid Oracle.<br/>Powered by Groq + Llama 3.3 · Miles Morales Edition</div>
+        </div>
+
+        <div class="set-section">
+          <div class="set-title">◈ IDENTITY</div>
+          <div class="set-item">
+            <div><div class="set-label">User Name</div><div class="set-sub" id="setNameDisp">---</div></div>
+            <input class="set-inp2" id="setNameInp" placeholder="New name…"/>
+          </div>
+          <button class="set-btn" style="width:100%;padding:11px;margin-bottom:10px;font-size:10px;" onclick="saveName()">▶ SAVE NAME</button>
+        </div>
+
+        <div class="set-section">
+          <div class="set-title">◈ API KEYS</div>
+          <div class="set-item"><div><div class="set-label">Groq AI</div><div class="set-sub">Brain — required</div></div><div class="set-val" id="groqSt">○ NOT SET</div></div>
+          <div class="set-item"><div><div class="set-label">ElevenLabs</div><div class="set-sub">Voice — optional</div></div><div class="set-val" id="elSt">○ NOT SET</div></div>
+          <button class="set-btn" style="width:100%;padding:11px;margin-bottom:10px;font-size:10px;" onclick="showSetupScreen()">▶ UPDATE API KEYS</button>
+        </div>
+
+        <div class="set-section">
+          <div class="set-title">◈ VOICE</div>
+          <div class="set-item"><div><div class="set-label">Engine</div><div class="set-sub" id="voiceEngLabel">Browser TTS</div></div><div class="set-val" id="voiceSt">BROWSER</div></div>
+          <div class="set-item"><div><div class="set-label">Wake Word</div><div class="set-sub">Say "Hey Echo"</div></div><button class="set-btn" onclick="toggleWake()" id="wakeTglBtn">ENABLE</button></div>
+        </div>
+
+        <div class="set-section">
+          <div class="set-title">◈ DATA MANAGEMENT</div>
+          <div class="set-item"><div><div class="set-label">Clear Chat</div><div class="set-sub">Remove all messages</div></div><button class="set-btn danger" onclick="clearHistory()">CLEAR</button></div>
+          <div class="set-item"><div><div class="set-label">Clear Notes</div><div class="set-sub">Delete all notes</div></div><button class="set-btn danger" onclick="clearNotes()">CLEAR</button></div>
+          <div class="set-item"><div><div class="set-label">Factory Reset</div><div class="set-sub">Wipe everything</div></div><button class="set-btn danger" onclick="factoryReset()">RESET</button></div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /pages -->
+
+  <div id="nav">
+    <button class="nb active" id="nb-dashboard" onclick="goPage('dashboard')"><div class="nb-icon">⬡</div>DASH</button>
+    <button class="nb" id="nb-chat" onclick="goPage('chat')"><div class="nb-icon">◈</div>JARVIS</button>
+    <button class="nb" id="nb-map" onclick="goPage('map')"><div class="nb-icon">◎</div>MAP</button>
+    <button class="nb" id="nb-notes" onclick="goPage('notes')"><div class="nb-icon">◧</div>NOTES</button>
+    <button class="nb" id="nb-settings" onclick="goPage('settings')"><div class="nb-icon">⚙</div>SYSTEM</button>
+  </div>
+</div>
+
+<script>
+'use strict';
+
+/* ── BOOT ── */
+const BL=[
+  {t:'STARK INDUSTRIES MARK VII INITIALIZING…',c:''},
+  {t:'POWER CELL: NOMINAL',c:'lok'},
+  {t:'ARC REACTOR: 98.7% EFFICIENCY',c:'lok'},
+  {t:'HUD MULTI-DISPLAY: ONLINE',c:'lok'},
+  {t:'ATMOSPHERIC SENSORS: CALIBRATING…',c:'lwarn'},
+  {t:'NAVIGATION SYSTEMS: ONLINE',c:'lok'},
+  {t:'AI CORE LLaMA 3.3: ACTIVE',c:'lok'},
+  {t:'VOICE SYNTHESIS: READY',c:'lok'},
+  {t:'ALL SYSTEMS NOMINAL',c:'lok'},
+  {t:'WELCOME BACK, SIR.',c:'lok'},
+];
+let bIdx=0,bProg=0;
+const bLog=document.getElementById('bootLog'),bFill=document.getElementById('bootFill'),bPctEl=document.getElementById('bootPct');
+function bStep(){
+  if(bIdx<BL.length){
+    const l=document.createElement('div');
+    l.className='ll '+BL[bIdx].c;
+    l.textContent='> '+BL[bIdx].t;
+    bLog.appendChild(l);
+    requestAnimationFrame(()=>l.classList.add('s'));
+    bIdx++;
+    bProg=Math.round((bIdx/BL.length)*100);
+    bFill.style.width=bProg+'%';
+    bPctEl.textContent=bProg+'%';
+    setTimeout(bStep, bIdx===BL.length ? 500 : 170+Math.random()*110);
+  } else {
+    setTimeout(bFinish,600);
+  }
+}
+function bFinish(){
+  document.getElementById('boot').classList.add('done');
+  setTimeout(()=>{
+    document.getElementById('boot').style.display='none';
+    notes=JSON.parse(localStorage.getItem('j7_notes')||'[]');
+    const k=localStorage.getItem('j7_key');
+    const n=localStorage.getItem('j7_name');
+    const el=localStorage.getItem('j7_el');
+    if(k){
+      apiKey=k; userName=n||'sir'; elKey=el||'';
+      startApp();
+    } else {
+      document.getElementById('setup').classList.add('show');
+    }
+  },800);
+}
+setTimeout(()=>bStep(),1600);
+
+/* ── STATE ── */
+let apiKey='',elKey='',userName='',history=[],busy=false,notes=[],msgCount=0;
+let recog=null,listening=false,wakeMode=false,wakeRecog=null,micHoldTimer=null;
+let uptimeStart=null,currentWx=null;
+
+/* ── CLOCK ── */
+function tick(){
+  const n=new Date();
+  document.getElementById('clk').textContent=n.toLocaleTimeString([],{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  const D=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+  const M=['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+  document.getElementById('dt').textContent=`${D[n.getDay()]} ${n.getDate()} ${M[n.getMonth()]} ${n.getFullYear()}`;
+  if(uptimeStart){
+    const s=Math.floor((Date.now()-uptimeStart)/1000);
+    document.getElementById('uptime').textContent=`${String(Math.floor(s/60)).padStart(2,'0')}:${String(s%60).padStart(2,'0')}`;
+  }
+}
+setInterval(tick,1000); tick();
+
+/* ── SETUP ── */
+function saveSetup(){
+  const g=document.getElementById('groqInp').value.trim();
+  const n=document.getElementById('nameInp').value.trim();
+  const el=document.getElementById('elInp').value.trim();
+  if(!g){alert('Groq API key is required.');return;}
+  apiKey=g; userName=n||'sir'; elKey=el;
+  localStorage.setItem('j7_key',g);
+  localStorage.setItem('j7_name',userName);
+  if(el) localStorage.setItem('j7_el',el);
+  document.getElementById('setup').classList.remove('show');
+  startApp();
+}
+function showSetupScreen(){
+  stopWake();
+  document.getElementById('setup').classList.add('show');
+  document.getElementById('app').classList.remove('show');
+}
+
+/* ── START APP ── */
+function startApp(){
+  document.getElementById('app').classList.add('show');
+  uptimeStart=Date.now();
+  updateBattery();
+  setInterval(updateBattery,30000);
+  fetchWx();
+  setInterval(fetchWx,300000);
+  updateSettingsDisplay();
+  renderDashNotes();
+  document.getElementById('statNotes').textContent=notes.length;
+  welcome();
+}
+
+/* ── PAGE NAVIGATION ── */
+function goPage(name){
+  // Hide all
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  // Show target
+  const pg=document.getElementById(name+'Page');
+  const nb=document.getElementById('nb-'+name);
+  if(pg) pg.classList.add('active');
+  if(nb) nb.classList.add('active');
+  // Page-specific actions
+  if(name==='chat'){
+    setTimeout(()=>{
+      const m=document.getElementById('msgs');
+      m.scrollTop=m.scrollHeight;
+    },50);
+  }
+  if(name==='notes') renderNotes();
+  if(name==='dashboard') renderDashNotes();
+  if(name==='settings') updateSettingsDisplay();
+}
+
+/* ── BATTERY ── */
+function updateBattery(){
+  if('getBattery' in navigator){
+    navigator.getBattery().then(b=>{
+      const p=Math.round(b.level*100);
+      document.getElementById('batFill').style.width=p+'%';
+      document.getElementById('batFill').style.background=p>20?'var(--g)':'#e74c3c';
+      document.getElementById('batPct').textContent=p+'%';
+      document.getElementById('batSt').textContent=b.charging?'CHARGING ⚡':'DISCHARGING';
+    });
+  } else {
+    document.getElementById('batPct').textContent='N/A';
+    document.getElementById('batSt').textContent='N/A';
+  }
+}
+
+/* ── WEATHER (real, no key needed) ── */
+async function fetchWx(){
+  try{
+    const loc=await fetch('https://ipapi.co/json/').then(r=>r.json());
+    const lat=loc.latitude||36.1; const lon=loc.longitude||-5.4; const city=loc.city||'Unknown';
+    const wx=await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current_weather=true&hourly=apparent_temperature&timezone=auto`).then(r=>r.json());
+    const t=Math.round(wx.current_weather.temperature);
+    const code=wx.current_weather.weathercode;
+    const icon=wIcon(code); const desc=wDesc(code);
+    const wind=Math.round(wx.current_weather.windspeed);
+    currentWx={temp:`${t}°C`,feels:`${t-2}°C`,desc,icon,location:city,humidity:'--',wind:`${wind} km/h`};
+    document.getElementById('stripTemp').textContent=`${t}°C`;
+    document.getElementById('stripCity').textContent=city.toUpperCase().slice(0,10);
+    document.getElementById('dWxIcon').textContent=icon;
+    document.getElementById('dWxTemp').textContent=`${t}°C`;
+    document.getElementById('dWxDesc').textContent=desc;
+    document.getElementById('dWxLoc').textContent='◈ '+city.toUpperCase();
+    document.getElementById('dWxFeels').textContent=`${t-2}°C`;
+    document.getElementById('dWxWind').textContent=`${wind} km/h`;
+  }catch(e){
+    document.getElementById('stripTemp').textContent='--°C';
+  }
+}
+function wIcon(c){if(c===0)return'☀️';if(c<=2)return'⛅';if(c<=3)return'☁️';if(c<=48)return'🌫️';if(c<=67)return'🌧️';if(c<=82)return'🌧️';if(c<=99)return'⛈️';return'🌡️';}
+function wDesc(c){if(c===0)return'Clear sky';if(c<=2)return'Partly cloudy';if(c<=3)return'Overcast';if(c<=48)return'Foggy';if(c<=67)return'Rain';if(c<=82)return'Showers';return'Thunderstorm';}
+
+/* ── WELCOME ── */
+function welcome(){
+  const h=new Date().getHours();
+  const g=h<12?'Good morning':h<18?'Good afternoon':'Good evening';
+  document.getElementById('heroName').textContent=userName.toUpperCase();
+  document.getElementById('heroGreet').textContent=`${g}, ${userName}.`;
+  addMsg('a',`${g}, ${userName}. J.A.R.V.I.S Mark VII fully operational. Use the bottom navigation to access: Dashboard, Chat, Map, Notes and Settings. How can I assist you?`);
+  speak(`${g}, ${userName}. Mark Seven online.`);
+  const cs=['🗺️ Map of Algeciras','🌤️ Weather today','🧮 15% of 500','✍️ Write a haiku','📰 Latest news'];
+  const ch=document.getElementById('chips'); ch.innerHTML='';
+  cs.forEach(c=>{
+    const el=document.createElement('div');
+    el.className='chip'; el.textContent=c;
+    el.onclick=()=>{ inp.value=c; inp.dispatchEvent(new Event('input')); goPage('chat'); sendMsg(); };
+    ch.appendChild(el);
+  });
+}
+function quickCmd(cmd){
+  goPage('chat');
+  inp.value=cmd;
+  inp.dispatchEvent(new Event('input'));
+  sendMsg();
+}
+
+/* ── MAP ── */
+function loadMap(query){
+  const q=encodeURIComponent(query);
+  document.getElementById('mapIframe').src=
+    `https://maps.google.com/maps?q=${q}&t=&z=13&ie=UTF8&iwloc=&output=embed`;
+}
+function searchMap(){
+  const q=document.getElementById('mapInp').value.trim();
+  if(!q) return;
+  loadMap(q);
+  document.getElementById('mapInp').value='';
+}
+document.getElementById('mapInp').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();searchMap();}});
+
+/* ── NOTES ── */
+document.getElementById('noteInp').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();addNote();}});
+function addNote(){
+  const t=document.getElementById('noteInp').value.trim();
+  if(!t) return;
+  saveNote(t);
+  document.getElementById('noteInp').value='';
+  renderNotes();
+}
+function saveNote(text){
+  notes.push({text,time:new Date().toLocaleString(),id:Date.now()});
+  localStorage.setItem('j7_notes',JSON.stringify(notes));
+  document.getElementById('statNotes').textContent=notes.length;
+  renderDashNotes();
+}
+function deleteNote(id){
+  notes=notes.filter(n=>n.id!==id);
+  localStorage.setItem('j7_notes',JSON.stringify(notes));
+  document.getElementById('statNotes').textContent=notes.length;
+  renderNotes(); renderDashNotes();
+}
+function renderNotes(){
+  const list=document.getElementById('noteList');
+  document.getElementById('notesCount').textContent=`${notes.length} NOTE${notes.length!==1?'S':''} STORED`;
+  if(!notes.length){
+    list.innerHTML='<div class="notes-empty">◈<br>NO NOTES STORED<br>ADD YOUR FIRST NOTE ABOVE</div>';
+    return;
+  }
+  list.innerHTML=[...notes].reverse().map((n,i)=>
+    `<div class="note-item">
+      <div class="note-num">#${String(notes.length-i).padStart(2,'0')}</div>
+      <div class="note-body">
+        <div class="note-text">${n.text.replace(/</g,'&lt;')}</div>
+        <div class="note-time">${n.time}</div>
+      </div>
+      <button class="note-del" onclick="deleteNote(${n.id})">✕</button>
+    </div>`
+  ).join('');
+}
+function renderDashNotes(){
+  const list=document.getElementById('dashNotesList');
+  const recent=[...notes].reverse().slice(0,3);
+  if(!recent.length){list.innerHTML='<div class="dnp-empty">NO NOTES STORED</div>';return;}
+  list.innerHTML=recent.map(n=>
+    `<div class="dnp-item"><div class="dnp-dot"></div>${n.text.replace(/</g,'&lt;').slice(0,42)}${n.text.length>42?'…':''}</div>`
+  ).join('');
+}
+
+/* ── SETTINGS ── */
+function updateSettingsDisplay(){
+  document.getElementById('setNameDisp').textContent=userName.toUpperCase();
+  const gs=document.getElementById('groqSt');
+  gs.textContent=apiKey?'● CONNECTED':'○ NOT SET';
+  gs.style.color=apiKey?'#00ff88':'#e74c3c';
+  const es=document.getElementById('elSt');
+  es.textContent=elKey?'● CONNECTED':'○ NOT SET';
+  es.style.color=elKey?'#00ff88':'var(--txd)';
+  document.getElementById('voiceSt').textContent=elKey?'ELEVENLABS':'BROWSER';
+  document.getElementById('voiceEngLabel').textContent=elKey?'ElevenLabs TTS':'Browser TTS';
+}
+function saveName(){
+  const n=document.getElementById('setNameInp').value.trim();
+  if(!n) return;
+  userName=n; localStorage.setItem('j7_name',n);
+  document.getElementById('heroName').textContent=n.toUpperCase();
+  document.getElementById('heroGreet').textContent=`Good day, ${n}.`;
+  updateSettingsDisplay();
+  showToast('◈ NAME UPDATED');
+}
+function clearHistory(){if(!confirm('Clear all chat history?'))return;history=[];document.getElementById('msgs').innerHTML='';msgCount=0;document.getElementById('statMsgs').textContent='0';welcome();showToast('◈ HISTORY CLEARED');}
+function clearNotes(){if(!confirm('Delete all notes?'))return;notes=[];localStorage.removeItem('j7_notes');renderNotes();renderDashNotes();document.getElementById('statNotes').textContent='0';showToast('◈ NOTES CLEARED');}
+function factoryReset(){if(!confirm('FACTORY RESET: delete all data?'))return;localStorage.clear();location.reload();}
+
+/* ── INPUT ── */
+const inp=document.getElementById('ui');
+inp.addEventListener('input',()=>{
+  inp.style.height='auto';
+  inp.style.height=Math.min(inp.scrollHeight,90)+'px';
+  document.getElementById('sb').disabled=!inp.value.trim();
+});
+inp.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey){e.preventDefault();sendMsg();}});
+
+/* ── VOICE INPUT ── */
+function tapMic(){if(wakeMode){stopWake();return;}startListening();}
+document.getElementById('micBtn').addEventListener('mousedown',()=>{micHoldTimer=setTimeout(()=>toggleWake(),700);});
+document.getElementById('micBtn').addEventListener('touchstart',()=>{micHoldTimer=setTimeout(()=>toggleWake(),700);},{passive:true});
+['mouseup','touchend','mouseleave'].forEach(ev=>document.getElementById('micBtn').addEventListener(ev,()=>clearTimeout(micHoldTimer)));
+
+function startListening(){
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){alert('Voice requires Chrome browser.');return;}
+  if(listening){recog.stop();return;}
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  recog=new SR(); recog.lang='en-US'; recog.continuous=false; recog.interimResults=false;
+  recog.onstart=()=>{
+    listening=true;
+    document.getElementById('micBtn').classList.add('on');
+    document.getElementById('micBtn').textContent='⏹';
+    document.getElementById('wf').classList.add('on');
+    document.getElementById('st').textContent='AUDIO INPUT ACTIVE';
+  };
+  recog.onresult=e=>{
+    const t=e.results[0][0].transcript;
+    inp.value=t; inp.dispatchEvent(new Event('input'));
+    goPage('chat'); sendMsg();
+  };
+  recog.onend=()=>{
+    listening=false;
+    document.getElementById('micBtn').classList.remove('on');
+    document.getElementById('micBtn').textContent='🎤';
+    document.getElementById('wf').classList.remove('on');
+    document.getElementById('st').textContent='MARK VII · ALL SYSTEMS NOMINAL';
+  };
+  recog.onerror=()=>recog.stop();
+  recog.start();
+}
+
+/* ── WAKE WORD ── */
+function toggleWake(){if(wakeMode)stopWake();else startWake();}
+function startWake(){
+  if(!('webkitSpeechRecognition' in window)&&!('SpeechRecognition' in window)){alert('Wake word requires Chrome.');return;}
+  wakeMode=true;
+  document.getElementById('wakeStatus').textContent='WAKE: ACTIVE 🔴';
+  document.getElementById('wakeTglBtn').textContent='DISABLE';
+  document.getElementById('wakeOv').classList.add('on');
+  loopWake();
+}
+function stopWake(){
+  wakeMode=false;
+  if(wakeRecog){try{wakeRecog.stop();}catch(e){}}
+  document.getElementById('wakeStatus').textContent='WAKE: OFF';
+  document.getElementById('wakeTglBtn').textContent='ENABLE';
+  document.getElementById('wakeOv').classList.remove('on');
+}
+function loopWake(){
+  if(!wakeMode) return;
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  wakeRecog=new SR(); wakeRecog.lang='en-US'; wakeRecog.continuous=false; wakeRecog.interimResults=false;
+  wakeRecog.onresult=e=>{
+    const t=e.results[0][0].transcript.toLowerCase();
+    if(t.includes('jarvis')){
+      document.getElementById('wakeOv').classList.remove('on');
+      speak('Yes, '+userName+'?');
+      setTimeout(()=>{goPage('chat');startListening();},600);
+      setTimeout(()=>{if(wakeMode){document.getElementById('wakeOv').classList.add('on');loopWake();}},7000);
+    } else {
+      setTimeout(()=>loopWake(),200);
+    }
+  };
+  wakeRecog.onend=()=>{if(wakeMode)setTimeout(()=>loopWake(),400);};
+  wakeRecog.onerror=()=>{if(wakeMode)setTimeout(()=>loopWake(),800);};
+  try{wakeRecog.start();}catch(e){}
+}
+document.getElementById('wakeOv').addEventListener('click',()=>stopWake());
+
+/* ── SPEAK ── */
+async function speakEL(text){
+  const clean=text.replace(/```[\s\S]*?```/g,'').replace(/[#*`▸◈◉]/g,'').trim().slice(0,500);
+  try{
+    const r=await fetch('https://api.elevenlabs.io/v1/text-to-speech/onwK4e9ZLuTAKqWW03F9',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','xi-api-key':elKey},
+      body:JSON.stringify({text:clean,model_id:'eleven_monolingual_v1',voice_settings:{stability:.5,similarity_boost:.75}})
+    });
+    const blob=await r.blob();
+    new Audio(URL.createObjectURL(blob)).play();
+  }catch(e){speakBrowser(text);}
+}
+function speakBrowser(text){
+  if(!('speechSynthesis' in window)) return;
+  window.speechSynthesis.cancel();
+  const clean=text.replace(/```[\s\S]*?```/g,'').replace(/[#*`▸◈◉]/g,'').trim().slice(0,400);
+  const u=new SpeechSynthesisUtterance(clean);
+  u.rate=.92; u.pitch=.78; u.volume=1;
+  const vs=speechSynthesis.getVoices();
+  const pref=vs.find(v=>v.name.includes('Google UK English Male')||v.name.includes('Daniel')||v.name.includes('Arthur'));
+  if(pref) u.voice=pref;
+  speechSynthesis.speak(u);
+}
+function speak(text){elKey?speakEL(text):speakBrowser(text);}
+
+/* ── PARSE ── */
+function parseMap(t){const m=t.match(/```map\s*([\s\S]*?)```/);if(!m)return null;try{return JSON.parse(m[1].trim());}catch{return null;}}
+function parseWx(t){const m=t.match(/```weather\s*([\s\S]*?)```/);if(!m)return null;try{return JSON.parse(m[1].trim());}catch{return null;}}
+function mdRender(text){
+  let t=text.replace(/```[\s\S]*?```/g,'').trim();
+  t=t.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+  t=t.replace(/\*(.*?)\*/g,'<em>$1</em>');
+  t=t.replace(/`([^`]+)`/g,'<code>$1</code>');
+  t=t.replace(/^### (.+)/gm,'<h4>$1</h4>');
+  t=t.replace(/^## (.+)/gm,'<h3>$1</h3>');
+  t=t.replace(/^# (.+)/gm,'<h2>$1</h2>');
+  t=t.replace(/^- (.+)/gm,'<div class="li"><span class="ar">▸</span><span>$1</span></div>');
+  t=t.replace(/\n\n/g,'<br><br>').replace(/\n/g,'<br>');
+  return t;
+}
+function mapCard(d){
+  const l=d.locations[0];
+  const q=encodeURIComponent(l.name);
+  const gmEmbed=`https://maps.google.com/maps?q=${q}&t=&z=14&ie=UTF8&iwloc=&output=embed`;
+  const gmLink=`https://maps.google.com/?q=${l.lat},${l.lng}`;
+  const pins=d.locations.map(x=>`<div class="mc-pin"><span>▸</span>${x.name}${x.note?' — '+x.note:''}</div>`).join('');
+  return `<div class="mc"><div class="mc-title"><span>◈ ${d.title}</span><a href="${gmLink}" target="_blank" class="mc-open">OPEN MAPS ↗</a></div><iframe src="${gmEmbed}" loading="lazy"></iframe><div class="mc-pins">${pins}</div></div>`;
+}
+function wxCard(d){
+  return `<div class="wx"><div class="wx-top"><div class="wx-icon">${d.icon}</div><div><div class="wx-temp">${d.temp}</div><div class="wx-desc">${d.desc}</div><div class="wx-loc">◈ ${d.location}</div></div></div><div class="wx-row"><div class="wx-d">Feels <span>${d.feels}</span></div><div class="wx-d">Humidity <span>${d.humidity}</span></div><div class="wx-d">Wind <span>${d.wind}</span></div></div></div>`;
+}
+
+/* ── MESSAGES ── */
+function addMsg(role,content){
+  if(role==='u') document.getElementById('chips').innerHTML='';
+  const m=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.className='msg '+role;
+  const mapD=role==='a'?parseMap(content):null;
+  const wxD=role==='a'?parseWx(content):null;
+  const body=role==='a'?mdRender(content):content.replace(/</g,'&lt;');
+  d.innerHTML=`<div class="ma">${role==='u'?'◉':'◈'}</div><div class="mb"><div class="bub">${body}</div>${mapD?mapCard(mapD):''}${wxD?wxCard(wxD):''}</div>`;
+  m.appendChild(d);
+  m.scrollTop=m.scrollHeight;
+  if(role==='u'){
+    const lo=content.toLowerCase();
+    if(lo.includes('remember ')||lo.includes('remind me')){
+      const nt=content.replace(/remember that|remember|remind me (to|that)?/gi,'').trim();
+      if(nt.length>2){saveNote(nt);showToast('◈ NOTE SAVED');}
+    }
+  }
+}
+function showTyping(){
+  const m=document.getElementById('msgs');
+  const d=document.createElement('div');
+  d.className='msg a'; d.id='typ';
+  d.innerHTML='<div class="ma">◈</div><div class="mb"><div class="bub"><div class="typing"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div></div></div>';
+  m.appendChild(d); m.scrollTop=m.scrollHeight;
+}
+function hideTyping(){const t=document.getElementById('typ');if(t)t.remove();}
+
+/* ── SEND ── */
+const SYS=()=>`You are E.C.H.O (Enhanced Combat Hybrid Oracle) serving ${userName}. You have the energy and wit of Miles Morales Spider-Man — quick, confident, street-smart but brilliant. Reference Spider-Verse when relevant. Address as "${userName}" or occasionally drop a casual "yo" or "hey" naturally.
+Weather: ${currentWx?JSON.stringify(currentWx):'not yet available'}.
+When asked for weather: \`\`\`weather\n{"location":"${currentWx?.location||'Unknown'}","temp":"${currentWx?.temp||'--'}","feels":"${currentWx?.feels||'--'}","desc":"${currentWx?.desc||'--'}","icon":"${currentWx?.icon||'🌡️'}","humidity":"${currentWx?.humidity||'--'}","wind":"${currentWx?.wind||'--'}"}\n\`\`\`
+When asked for a map: \`\`\`map\n{"title":"Title","locations":[{"name":"Place","lat":36.12,"lng":-5.45,"note":"optional"}]}\n\`\`\`
+Notes: ${notes.map(n=>n.text).join('; ')||'none'}
+Use markdown. Be sharp, fast and powerful.`;
+
+async function sendMsg(){
+  const text=inp.value.trim();
+  if(!text||busy||!apiKey) return;
+  busy=true; inp.value=''; inp.style.height='auto';
+  document.getElementById('sb').disabled=true;
+  document.getElementById('st').textContent='PROCESSING…';
+  msgCount++; document.getElementById('statMsgs').textContent=msgCount;
+  history.push({role:'user',content:text});
+  addMsg('u',text);
+  showTyping();
+  try{
+    const r=await fetch('https://api.groq.com/openai/v1/chat/completions',{
+      method:'POST',
+      headers:{'Content-Type':'application/json','Authorization':`Bearer ${apiKey}`},
+      body:JSON.stringify({model:'llama-3.3-70b-versatile',max_tokens:1000,messages:[{role:'system',content:SYS()},...history]})
+    });
+    const data=await r.json();
+    hideTyping();
+    if(data.error){addMsg('a','⚠️ '+data.error.message);}
+    else{
+      const rep=data.choices[0].message.content;
+      history.push({role:'assistant',content:rep});
+      addMsg('a',rep);
+      speak(rep);
+    }
+  }catch(e){
+    hideTyping();
+    addMsg('a','⚠️ Connection lost, '+userName+'.');
+  }
+  busy=false;
+  document.getElementById('st').textContent='SPIDER-VERSE · ALL SYSTEMS NOMINAL';
+  inp.focus();
+}
+
+/* ── TOAST ── */
+function showToast(msg){
+  const t=document.createElement('div');
+  t.style.cssText='position:fixed;bottom:70px;left:50%;transform:translateX(-50%);background:rgba(227,0,27,.95);color:#fff;font-family:Bebas Neue,sans-serif;font-size:11px;letter-spacing:2px;padding:8px 16px;border-radius:8px;z-index:500;font-weight:400;white-space:nowrap;pointer-events:none;';
+  t.textContent=msg;
+  document.body.appendChild(t);
+  setTimeout(()=>t.remove(),2000);
+}
+
+window.onload=()=>speechSynthesis.getVoices();
+</script>
+</body>
+</html>
